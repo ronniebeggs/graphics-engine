@@ -1,5 +1,7 @@
 package engine;
 
+import org.checkerframework.checker.units.qual.C;
+import world.Cube;
 import world.World;
 
 /**
@@ -18,6 +20,8 @@ public class Engine {
      * */
     public void singleFrameTest() {
         World world = new World();
+        Cube cube = new Cube(100, 100, 0, 100);
+        world.insertEntity(cube);
         ter.initialize(DISPLAY_WIDTH, DISPLAY_HEIGHT);
         ter.renderFrame(world);
     }

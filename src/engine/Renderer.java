@@ -38,6 +38,7 @@ public class Renderer {
      * */
     public void renderFrame(World world) {
         StdDraw.clear(new Color(0, 0, 0));
+        StdDraw.enableDoubleBuffering();
         for (Entity entity : world.fetchEntities()) {
             entity.render();
         }
