@@ -3,6 +3,7 @@ package engine;
 import org.checkerframework.checker.units.qual.C;
 import world.Square;
 import world.World;
+import world.Cube;
 
 /**
  * Class that handles the overarching operations of the project.
@@ -25,10 +26,12 @@ public class Engine {
      * */
     public void singleFrameTest() {
         World world = new World();
-        Square frontFace = new Square(0, 0, 100, 100);
-        Square topFace = new Square(200, 0, 200, 100);
-        world.insertEntity(frontFace);
-        world.insertEntity(topFace);
+//        Square frontFace = new Square(0, 0, 100, 100);
+//        Square topFace = new Square(200, 0, 200, 100);
+//        world.insertEntity(frontFace);
+//        world.insertEntity(topFace);
+        Cube cube = new Cube(-60, -60, 100, 60);
+        world.insertEntity(cube);
         ter.initialize(DISPLAY_WIDTH, DISPLAY_HEIGHT);
         ter.renderFrame(world);
     }
