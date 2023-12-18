@@ -10,10 +10,13 @@ public class World {
         entities = new HashSet<>();
     }
 
+    /**
+     * Track new entity within the world.
+     * @param entity entity to be tracked.
+     * */
     public void insertEntity(Entity entity) {
         entities.add(entity);
     }
-
     /**
      * Returns all entities to be rendered onto the display.
      * */
