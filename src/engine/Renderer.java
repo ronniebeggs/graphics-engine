@@ -5,6 +5,7 @@ import util.Coordinate;
 import util.Mesh;
 import world.Entity;
 import world.World;
+import world.Camera;
 
 import java.awt.Color;
 import java.util.PriorityQueue;
@@ -34,7 +35,7 @@ public class Renderer {
     private int displayHeight;
     private double verticalViewAngle;
     private double focalLength;
-    private final Coordinate camera = new Coordinate(0, 0, 0);
+    private Camera camera;
     /**
      * Initializes StdDraw parameters and launches the StdDraw window. w and h are the
      * width and height of the world in pixels.
@@ -43,7 +44,8 @@ public class Renderer {
      * @param height height of the window in pixels.
      * @param fovY vertical view angle of the camera.
      */
-    public void initialize(int width, int height, double fovY) {
+    public void initialize(Camera camera, int width, int height, double fovY) {
+        this.camera = camera;
         this.displayWidth = width;
         this.displayHeight = height;
         this.verticalViewAngle = fovY;
@@ -79,11 +81,9 @@ public class Renderer {
         // map each mesh to its distance relative to the camera, and place within priority queue.
         PriorityQueue<MeshRankNode> meshRank = new PriorityQueue<>();
         for (Mesh mesh : entity.getMeshes()) {
-            Coordinate averagePosition = mesh.averagePosition();
-            double deltaXSquared = Math.pow(camera.getX() - averagePosition.getX(), 2);
-            double deltaYSquared = Math.pow(camera.getY() - averagePosition.getY(), 2);
-            double deltaZSquared = Math.pow(camera.getZ() - averagePosition.getZ(), 2);
-            double distanceToCamera = Math.sqrt(deltaXSquared + deltaYSquared + deltaZSquared);
+            Coordinate meshPosition = mesh.averagePosition();
+            Coordinate cameraPosition = camera.getPosition();
+            double distanceToCamera = cameraPosition.distanceTo(meshPosition);
             meshRank.add(new MeshRankNode(mesh, distanceToCamera));
         }
         // render each mesh in decreasing order relative to the camera to mitigate rendering overlap.
@@ -116,9 +116,10 @@ public class Renderer {
      * */
     public Coordinate transformCoordinate(Coordinate position) {
         // D = (dX, dY, dz) -> position of point A with respect to a coordinate system defined by the camera
-        double dX = position.getX() - camera.getX();
-        double dY = position.getY() - camera.getY();
-        double dZ = position.getZ() - camera.getZ();
+        Coordinate cameraPosition = camera.getPosition();
+        double dX = position.getX() - cameraPosition.getX();
+        double dY = position.getY() - cameraPosition.getY();
+        double dZ = position.getZ() - cameraPosition.getZ();
         // E = (eX, eY, eZ) -> position of the display surface plane position relative to the camera pinhole
         double eX = 0;
         double eY = 0;
