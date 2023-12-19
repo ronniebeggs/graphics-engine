@@ -33,7 +33,6 @@ public class Renderer {
     }
     private int displayWidth;
     private int displayHeight;
-    private double verticalViewAngle;
     private double focalLength;
     private Camera camera;
     /**
@@ -44,11 +43,10 @@ public class Renderer {
      * @param height height of the window in pixels.
      * @param fovY vertical view angle of the camera.
      */
-    public void initialize(Camera camera, int width, int height, double fovY) {
+    public void initialize(Camera camera, int width, int height, double verticalViewAngle) {
         this.camera = camera;
         this.displayWidth = width;
         this.displayHeight = height;
-        this.verticalViewAngle = fovY;
         this.focalLength = displayHeight / (2 * Math.tan(Math.toRadians(verticalViewAngle)));
 
         StdDraw.setCanvasSize(width, height);
@@ -115,11 +113,19 @@ public class Renderer {
      * @return renderable 2D coordinate.
      * */
     public Coordinate transformCoordinate(Coordinate position) {
-        // D = (dX, dY, dz) -> position of point A with respect to a coordinate system defined by the camera
         Coordinate cameraPosition = camera.getPosition();
-        double dX = position.getX() - cameraPosition.getX();
-        double dY = position.getY() - cameraPosition.getY();
-        double dZ = position.getZ() - cameraPosition.getZ();
+        double X = position.getX() - cameraPosition.getX();
+        double Y = position.getY() - cameraPosition.getY();
+        double Z = position.getZ() - cameraPosition.getZ();
+        // Theta = (thetaX, thetaY, thetaZ) -> tait-bryan angles
+        Coordinate cameraTilt = camera.getCameraTilt();
+        double thetaX = Math.toRadians(cameraTilt.getX()); // pitch
+        double thetaY = Math.toRadians(cameraTilt.getY()); // yaw
+        double thetaZ = Math.toRadians(cameraTilt.getZ()); // roll
+        // I have no idea if this is going to work
+        double dX = Math.cos(thetaY) * (Math.sin(thetaZ) * Y + Math.cos(thetaZ) * X) - Math.sin(thetaY) * Z;
+        double dY = Math.sin(thetaX) * (Math.cos(thetaY) * Z + Math.sin(thetaY) * (Math.sin(thetaZ) * Y + Math.cos(thetaZ) * X)) + Math.cos(thetaX) * (Math.cos(thetaZ) * Y - Math.sin(thetaZ) * X);
+        double dZ = Math.cos(thetaX) * (Math.cos(thetaY) * Z + Math.sin(thetaY) * (Math.sin(thetaZ) * Y + Math.cos(thetaZ) * X)) - Math.sin(thetaX) * (Math.cos(thetaZ) * Y - Math.sin(thetaZ) * X);
         // E = (eX, eY, eZ) -> position of the display surface plane position relative to the camera pinhole
         double eX = 0;
         double eY = 0;
