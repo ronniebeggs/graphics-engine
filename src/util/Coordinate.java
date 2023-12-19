@@ -23,7 +23,7 @@ public class Coordinate {
         double deltaZSquared = Math.pow(getZ() - other.getZ(), 2);
         return Math.sqrt(deltaXSquared + deltaYSquared + deltaZSquared);
     }
-    public double[] coordinateToArray() {
+    public double[] toArray() {
         return new double[]{x, y, z};
     }
 }

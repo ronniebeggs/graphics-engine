@@ -51,6 +51,18 @@ public class Engine {
                     case 'a' -> {
                         camera.moveLateral(-10);
                     }
+                    case 'i' -> {
+                        camera.rotatePitch(-10);
+                    }
+                    case 'k' -> {
+                        camera.rotatePitch(10);
+                    }
+                    case 'l' -> {
+                        camera.rotateYaw(10);
+                    }
+                    case 'j' -> {
+                        camera.rotateYaw(-10);
+                    }
                 }
             }
         }
