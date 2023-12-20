@@ -25,11 +25,26 @@ public class Camera extends Entity {
         this.zPosition += deltaFrontal;
         this.xPosition += deltaLateral;
     }
+    public void moveTransverse(double distance) {
+        this.yPosition += distance;
+    }
     public void rotatePitch(double degree) {
         this.pitch += degree;
     }
     public void rotateYaw(double degree) {
         this.yaw += degree;
+    }
+    public void rotateAround(Entity target, double degree) {
+        Coordinate cameraPosition = getPosition();
+        Coordinate targetPosition = target.getPosition();
+        double distanceBetween = cameraPosition.distanceTo(targetPosition);
+
+        double deltaFrontal = distanceBetween * (1 - Math.cos(Math.toRadians(degree)));
+        double deltaLateral = distanceBetween * Math.sin(Math.toRadians(degree));
+
+        this.yaw += -degree;
+        this.zPosition += deltaFrontal;
+        this.xPosition += deltaLateral;
     }
     public Coordinate getCameraTilt() {
         return new Coordinate(pitch, yaw, roll);
