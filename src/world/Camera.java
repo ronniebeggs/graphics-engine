@@ -33,6 +33,18 @@ public class Camera extends Entity {
         // TODO: floor mod degree to avoid overflow (view angles could be integers with limited precisions)
         this.yaw += degree;
     }
+    public void pointToward(Entity target) {
+        Coordinate cameraPosition = getPosition();
+        Coordinate targetPosition = target.getPosition();
+        // calculate the yaw (right-left view)
+        double deltaX = targetPosition.getX() - cameraPosition.getX();
+        double deltaZ = targetPosition.getZ() - cameraPosition.getZ();
+        this.yaw = Math.toDegrees(Math.atan2(deltaZ, deltaX));
+        // calculate the pitch (up-down view)
+        double deltaY = targetPosition.getY() - cameraPosition.getY();
+        double xzDistance = cameraPosition.distanceTo(targetPosition);
+        this.pitch = Math.toDegrees(Math.atan2(deltaY, xzDistance));
+    }
     public void rotateAround(Entity target, double degree) {
         Coordinate cameraPosition = getPosition();
         Coordinate targetPosition = target.getPosition();
