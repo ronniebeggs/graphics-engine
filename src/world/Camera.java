@@ -8,22 +8,20 @@ public class Camera extends Entity {
     public Camera(double x, double y, double z) {
         super(x, y, z);
         this.pitch = 0;
-        this.yaw = 0;
+        this.yaw = 90;
         this.roll = 0;
     }
     public void moveFrontal(double distance) {
-        // TODO: change variable names here
-        double deltaFrontal = distance * Math.cos(Math.toRadians(yaw));
-        double deltaLateral = distance * Math.sin(Math.toRadians(yaw));
-        this.zPosition += deltaFrontal;
-        this.xPosition += deltaLateral;
+        moveInDirection(distance, this.yaw);
     }
     public void moveLateral(double distance) {
-        // TODO: change variable names here
-        double deltaFrontal = distance * Math.cos(Math.toRadians(yaw + 90));
-        double deltaLateral = distance * Math.sin(Math.toRadians(yaw + 90));
-        this.zPosition += deltaFrontal;
-        this.xPosition += deltaLateral;
+        moveInDirection(distance, this.yaw - 90);
+    }
+    public void moveInDirection(double distance, double angle) {
+        double deltaX = distance * Math.cos(Math.toRadians(angle));
+        double deltaZ = distance * Math.sin(Math.toRadians(angle));
+        this.xPosition += deltaX;
+        this.zPosition += deltaZ;
     }
     public void moveTransverse(double distance) {
         this.yPosition += distance;
@@ -32,6 +30,7 @@ public class Camera extends Entity {
         this.pitch += degree;
     }
     public void rotateYaw(double degree) {
+        // TODO: floor mod degree to avoid overflow (view angles could be integers with limited precisions)
         this.yaw += degree;
     }
     public void rotateAround(Entity target, double degree) {

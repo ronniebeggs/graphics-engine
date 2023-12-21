@@ -120,7 +120,7 @@ public class Renderer {
         // Theta = (thetaX, thetaY, thetaZ) -> tait-bryan angles
         Coordinate cameraTilt = camera.getCameraTilt();
         double thetaX = Math.toRadians(cameraTilt.getX()); // pitch
-        double thetaY = Math.toRadians(cameraTilt.getY()); // yaw
+        double thetaY = -Math.toRadians(cameraTilt.getY() - 90); // yaw
         double thetaZ = Math.toRadians(cameraTilt.getZ()); // roll
         // I have no idea if this is going to work
         double dX = Math.cos(thetaY) * (Math.sin(thetaZ) * Y + Math.cos(thetaZ) * X) - Math.sin(thetaY) * Z;

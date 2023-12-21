@@ -5,6 +5,7 @@ import world.World;
 import world.Cube;
 import world.Camera;
 import world.Entity;
+import util.Coordinate;
 
 /**
  * Class that handles the overarching operations of the project.
@@ -24,8 +25,12 @@ public class Engine {
     public void singleFrameTest() {
         World world = new World();
         camera = new Camera(0, 0, 0);
-        Cube cube = new Cube(-50, -50, 100, 60);
-        world.insertEntity(cube);
+        Cube cube1 = new Cube(0, 0, 100, 50);
+        Cube cube2 = new Cube(0, 50, 100, 50);
+        Cube cube3 = new Cube(50, 0, 100, 50);
+        world.insertEntity(cube1);
+        world.insertEntity(cube2);
+        world.insertEntity(cube3);
         ter.initialize(camera, DISPLAY_WIDTH, DISPLAY_HEIGHT, VERTICAL_VIEW_ANGLE);
         ter.renderFrame(world);
     }
@@ -33,40 +38,26 @@ public class Engine {
     public void mainLoop() {
         World world = new World();
         camera = new Camera(0, 0, 0);
-        Cube cube = new Cube(0, 0, 100, 60);
-        world.insertEntity(cube);
+        Cube cube1 = new Cube(0, 0, 100, 50);
+        Cube cube2 = new Cube(0, 50, 100, 50);
+        Cube cube3 = new Cube(50, 0, 100, 50);
+        world.insertEntity(cube1);
+        world.insertEntity(cube2);
+        world.insertEntity(cube3);
         ter.initialize(camera, DISPLAY_WIDTH, DISPLAY_HEIGHT, VERTICAL_VIEW_ANGLE);
         while (true) {
             ter.renderFrame(world);
             if (StdDraw.hasNextKeyTyped()) {
                 char keyPress = StdDraw.nextKeyTyped();
                 boolean isTargetLocked = true;
-                if (isTargetLocked) {
-                    fixedOrbitalMovement(cube, keyPress);
+                if (!isTargetLocked) {
+                    fixedOrbitalMovement(cube1, keyPress);
                 } else {
                     freeMovement(keyPress);
                 }
             }
         }
     }
-
-    public void fixedOrbitalMovement(Entity target, char keyPress) {
-        switch (keyPress) {
-            case 'w' -> {
-                camera.moveFrontal(10);
-            }
-            case 's' -> {
-                camera.moveFrontal(-10);
-            }
-            case 'd' -> {
-                camera.rotateAround(target, 10);
-            }
-            case 'a' -> {
-                camera.rotateAround(target, -10);
-            }
-        }
-    }
-
     public void freeMovement(char keyPress) {
         switch (keyPress) {
             case 'w' -> {
@@ -88,10 +79,10 @@ public class Engine {
                 camera.rotatePitch(10);
             }
             case 'l' -> {
-                camera.rotateYaw(10);
+                camera.rotateYaw(-10);
             }
             case 'j' -> {
-                camera.rotateYaw(-10);
+                camera.rotateYaw(10);
             }
             case 'q' -> {
                 camera.moveTransverse(10);
@@ -100,5 +91,21 @@ public class Engine {
                 camera.moveTransverse(-10);
             }
         };
+    }
+    public void fixedOrbitalMovement(Entity target, char keyPress) {
+        switch (keyPress) {
+            case 'w' -> {
+                camera.moveFrontal(-10);
+            }
+            case 's' -> {
+                camera.moveFrontal(10);
+            }
+            case 'd' -> {
+                camera.rotateAround(target, 10);
+            }
+            case 'a' -> {
+                camera.rotateAround(target, -10);
+            }
+        }
     }
 }
