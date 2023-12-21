@@ -53,13 +53,16 @@ public class Engine {
                 if (!isTargetLocked) {
                     fixedOrbitalMovement(cube1, keyPress);
                 } else {
-                    freeMovement(keyPress);
+                    freeMovement(cube1, keyPress);
                 }
             }
         }
     }
-    public void freeMovement(char keyPress) {
+    public void freeMovement(Entity target, char keyPress) {
         switch (keyPress) {
+            case 'u' -> {
+                camera.pointToward(target);
+            }
             case 'w' -> {
                 camera.moveFrontal(10);
             }
@@ -73,10 +76,10 @@ public class Engine {
                 camera.moveLateral(-10);
             }
             case 'i' -> {
-                camera.rotatePitch(-10);
+                camera.rotatePitch(10);
             }
             case 'k' -> {
-                camera.rotatePitch(10);
+                camera.rotatePitch(-10);
             }
             case 'l' -> {
                 camera.rotateYaw(-10);
