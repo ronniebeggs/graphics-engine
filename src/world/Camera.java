@@ -48,14 +48,18 @@ public class Camera extends Entity {
     public void rotateAround(Entity target, double degree) {
         Coordinate cameraPosition = getPosition();
         Coordinate targetPosition = target.getPosition();
+        // calculate the angle of the camera relative to the target
+        double deltaX1 = cameraPosition.getX() - targetPosition.getX();
+        double deltaZ1 = cameraPosition.getZ() - targetPosition.getZ();
+        double relativeToTarget = Math.atan2(deltaZ1, deltaX1);
+        // calculate the new camera position relative to the target position
         double distanceBetween = cameraPosition.distanceTo(targetPosition);
-
-        double deltaFrontal = distanceBetween * (1 - Math.cos(Math.toRadians(degree)));
-        double deltaLateral = distanceBetween * Math.sin(Math.toRadians(degree));
-
-        this.yaw += -degree;
-        this.zPosition += deltaFrontal;
-        this.xPosition += deltaLateral;
+        double deltaX2 = distanceBetween * Math.cos(relativeToTarget + Math.toRadians(degree));
+        double deltaZ2 = distanceBetween * Math.sin(relativeToTarget + Math.toRadians(degree));
+        // update camera position and view angle
+        this.xPosition = targetPosition.getX() + deltaX2;
+        this.zPosition = targetPosition.getZ() + deltaZ2;
+        pointToward(target);
     }
     public Coordinate getCameraTilt() {
         return new Coordinate(pitch, yaw, roll);
