@@ -50,7 +50,7 @@ public class Engine {
             if (StdDraw.hasNextKeyTyped()) {
                 char keyPress = StdDraw.nextKeyTyped();
                 boolean isTargetLocked = true;
-                if (!isTargetLocked) {
+                if (isTargetLocked) {
                     fixedOrbitalMovement(cube1, keyPress);
                 } else {
                     freeMovement(cube1, keyPress);
@@ -98,10 +98,10 @@ public class Engine {
     public void fixedOrbitalMovement(Entity target, char keyPress) {
         switch (keyPress) {
             case 'w' -> {
-                camera.moveFrontal(-10);
+                camera.moveFrontal(10);
             }
             case 's' -> {
-                camera.moveFrontal(10);
+                camera.moveFrontal(-10);
             }
             case 'd' -> {
                 camera.rotateAround(target, 10);
