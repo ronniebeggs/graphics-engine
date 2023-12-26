@@ -42,7 +42,7 @@ public class Camera extends Entity {
         this.yaw = Math.toDegrees(Math.atan2(deltaZ, deltaX));
         // calculate the pitch (up-down view)
         double deltaY = targetPosition.getY() - cameraPosition.getY();
-        double xzDistance = cameraPosition.distanceTo(targetPosition);
+        double xzDistance = cameraPosition.distanceXZ(targetPosition);
         this.pitch = Math.toDegrees(Math.atan2(deltaY, xzDistance));
     }
     public void rotateAround(Entity target, double degree) {
@@ -53,9 +53,9 @@ public class Camera extends Entity {
         double deltaZ1 = cameraPosition.getZ() - targetPosition.getZ();
         double relativeToTarget = Math.atan2(deltaZ1, deltaX1);
         // calculate the new camera position relative to the target position
-        double distanceBetween = cameraPosition.distanceTo(targetPosition);
-        double deltaX2 = distanceBetween * Math.cos(relativeToTarget + Math.toRadians(degree));
-        double deltaZ2 = distanceBetween * Math.sin(relativeToTarget + Math.toRadians(degree));
+        double xzDistance = cameraPosition.distanceXZ(targetPosition);
+        double deltaX2 = xzDistance * Math.cos(relativeToTarget + Math.toRadians(degree));
+        double deltaZ2 = xzDistance * Math.sin(relativeToTarget + Math.toRadians(degree));
         // update camera position and view angle
         this.xPosition = targetPosition.getX() + deltaX2;
         this.zPosition = targetPosition.getZ() + deltaZ2;

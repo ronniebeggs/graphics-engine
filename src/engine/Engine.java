@@ -75,6 +75,12 @@ public class Engine {
             case 'a' -> {
                 camera.moveLateral(-10);
             }
+            case 'q' -> {
+                camera.moveTransverse(10);
+            }
+            case 'e' -> {
+                camera.moveTransverse(-10);
+            }
             case 'i' -> {
                 camera.rotatePitch(10);
             }
@@ -86,12 +92,6 @@ public class Engine {
             }
             case 'j' -> {
                 camera.rotateYaw(10);
-            }
-            case 'q' -> {
-                camera.moveTransverse(10);
-            }
-            case 'e' -> {
-                camera.moveTransverse(-10);
             }
         };
     }
@@ -108,6 +108,24 @@ public class Engine {
             }
             case 'a' -> {
                 camera.rotateAround(target, -10);
+            }
+            case 'q' -> {
+                camera.moveTransverse(10);
+            }
+            case 'e' -> {
+                camera.moveTransverse(-10);
+            }
+            case 'i' -> {
+                camera.rotatePitch(10);
+            }
+            case 'k' -> {
+                camera.rotatePitch(-10);
+            }
+            case 'l' -> {
+                camera.rotateYaw(-10);
+            }
+            case 'j' -> {
+                camera.rotateYaw(10);
             }
         }
     }
