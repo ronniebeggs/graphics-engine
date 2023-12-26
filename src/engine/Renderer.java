@@ -81,7 +81,7 @@ public class Renderer {
         for (Mesh mesh : entity.getMeshes()) {
             Coordinate meshPosition = mesh.averagePosition();
             Coordinate cameraPosition = camera.getPosition();
-            double distanceToCamera = cameraPosition.distanceTo(meshPosition);
+            double distanceToCamera = cameraPosition.distance3D(meshPosition);
             meshRank.add(new MeshRankNode(mesh, distanceToCamera));
         }
         // render each mesh in decreasing order relative to the camera to mitigate rendering overlap.
