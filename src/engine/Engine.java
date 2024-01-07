@@ -1,10 +1,7 @@
 package engine;
 
 import edu.princeton.cs.algs4.StdDraw;
-import world.World;
-import world.Cube;
-import world.Camera;
-import world.Entity;
+import world.*;
 import util.Coordinate;
 
 /**
@@ -25,12 +22,8 @@ public class Engine {
     public void singleFrameTest() {
         World world = new World();
         camera = new Camera(0, 0, 0);
-        Cube cube1 = new Cube(0, 0, 100, 50);
-        Cube cube2 = new Cube(0, 50, 100, 50);
-        Cube cube3 = new Cube(50, 0, 100, 50);
-        world.insertEntity(cube1);
-        world.insertEntity(cube2);
-        world.insertEntity(cube3);
+        Sphere sphere = new Sphere(0, 0, 100, 50, 12, 6);
+        world.insertEntity(sphere);
         ter.initialize(camera, DISPLAY_WIDTH, DISPLAY_HEIGHT, VERTICAL_VIEW_ANGLE);
         ter.renderFrame(world);
     }
@@ -38,12 +31,8 @@ public class Engine {
     public void mainLoop() {
         World world = new World();
         camera = new Camera(0, 0, 0);
-        Cube cube1 = new Cube(0, 0, 100, 50);
-        Cube cube2 = new Cube(0, 50, 100, 50);
-        Cube cube3 = new Cube(50, 0, 100, 50);
-        world.insertEntity(cube1);
-        world.insertEntity(cube2);
-        world.insertEntity(cube3);
+        Sphere sphere = new Sphere(0, 0, 100, 50, 12, 6);
+        world.insertEntity(sphere);
         ter.initialize(camera, DISPLAY_WIDTH, DISPLAY_HEIGHT, VERTICAL_VIEW_ANGLE);
         while (true) {
             ter.renderFrame(world);
@@ -51,9 +40,9 @@ public class Engine {
                 char keyPress = StdDraw.nextKeyTyped();
                 boolean isTargetLocked = true;
                 if (isTargetLocked) {
-                    fixedOrbitalMovement(cube1, keyPress);
+                    fixedOrbitalMovement(sphere, keyPress);
                 } else {
-                    freeMovement(cube1, keyPress);
+                    freeMovement(sphere, keyPress);
                 }
             }
         }

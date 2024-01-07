@@ -8,6 +8,7 @@ public class Entity {
     public double xPosition;
     public double yPosition;
     public double zPosition;
+    public List<Coordinate> vertices;
     public List<Mesh> meshes;
 
     public Entity(double x, double y, double z) {
