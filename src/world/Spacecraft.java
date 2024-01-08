@@ -25,9 +25,9 @@ public class Spacecraft extends Entity {
         // save bottom coordinates to render separately at the end
         Coordinate[] bottomCoordinates = new Coordinate[numSlices];
 
-        Coordinate nose = directionTransform(new Coordinate(0, tankLength, 0));
-        Coordinate startTop = directionTransform(new Coordinate(tankRadius, tankLength / 2, 0));
-        Coordinate startBottom = directionTransform(new Coordinate(tankRadius, -tankLength / 2, 0));
+        Coordinate nose = Coordinate.fullPositionRotation(this, new Coordinate(0, tankLength, 0));
+        Coordinate startTop = Coordinate.fullPositionRotation(this, new Coordinate(tankRadius, tankLength / 2, 0));
+        Coordinate startBottom = Coordinate.fullPositionRotation(this, new Coordinate(tankRadius, -tankLength / 2, 0));
         bottomCoordinates[0] = startBottom;
 
         Coordinate previousTop = startTop;
@@ -38,14 +38,18 @@ public class Spacecraft extends Entity {
         for (int n = 1; n < numSlices; n++) {
             double theta = n * sliceAngle;
 
-            Coordinate bottom = directionTransform(new Coordinate(
+            Coordinate bottom = Coordinate.fullPositionRotation(
+                    this,
+                    new Coordinate(
                     tankRadius * Math.cos(theta),
                     -tankLength / 2,
                     tankRadius * Math.sin(theta)
             ));
             bottomCoordinates[n] = bottom;
 
-            Coordinate top = directionTransform(new Coordinate(
+            Coordinate top = Coordinate.fullPositionRotation(
+                    this,
+                    new Coordinate(
                     tankRadius * Math.cos(theta),
                     tankLength / 2,
                     tankRadius * Math.sin(theta)
@@ -69,58 +73,5 @@ public class Spacecraft extends Entity {
         meshes.add(new Mesh(new Coordinate[]{previousTop, nose, startTop}, StdDraw.BOOK_RED));
         // create mesh at the bottom of the tank
         meshes.add(new Mesh(bottomCoordinates, StdDraw.PRINCETON_ORANGE));
-    }
-
-//    public Coordinate directionTransform(Coordinate original) {
-//        double X = original.getX();
-//        double Y = original.getY();
-//        double Z = original.getZ();
-//
-//        double thetaX = -Math.toRadians(pitch); // pitch
-//        double thetaY = -Math.toRadians(yaw - 90); // yaw
-//        double thetaZ = Math.toRadians(roll); // roll
-//
-//        double dX = Math.cos(thetaY) * (Math.sin(thetaZ) * Y + Math.cos(thetaZ) * X) - Math.sin(thetaY) * Z;
-//        double dY = Math.sin(thetaX) * (Math.cos(thetaY) * Z + Math.sin(thetaY) * (Math.sin(thetaZ) * Y + Math.cos(thetaZ) * X)) + Math.cos(thetaX) * (Math.cos(thetaZ) * Y - Math.sin(thetaZ) * X);
-//        double dZ = Math.cos(thetaX) * (Math.cos(thetaY) * Z + Math.sin(thetaY) * (Math.sin(thetaZ) * Y + Math.cos(thetaZ) * X)) - Math.sin(thetaX) * (Math.cos(thetaZ) * Y - Math.sin(thetaZ) * X);
-//
-//        return new Coordinate(dX, dY, dZ);
-//    }
-
-    /**
-     * Scale and rotate an object's relative positions axis to real simulation positions.
-     * @param relativeToObject position relative to the object's axes.
-     * @return position transformed to real simulation axes.
-     * */
-    public Coordinate directionTransform(Coordinate relativeToObject) {
-        // calculate positions relative to the object's center
-        double xE = relativeToObject.getX();
-        double yE = relativeToObject.getY();
-        double zE = relativeToObject.getZ();
-
-        // yaw transformation
-        double yawRadians = Math.toRadians(yaw);
-        double x1 = xE * Math.cos(yawRadians) + zE * Math.sin(yawRadians);
-        double y1 = yE;
-        double z1 = -xE * Math.sin(yawRadians) + zE * Math.cos(yawRadians);
-
-        // pitch transformation
-        double pitchRadians = Math.toRadians(pitch);
-        double x2 = x1 * Math.cos(pitchRadians) - y1 * Math.sin(pitchRadians);
-        double y2 = x1 * Math.sin(pitchRadians) + y1 * Math.cos(pitchRadians);
-        double z2 = z1;
-
-        // roll transformation
-        double rollRadians = Math.toRadians(roll);
-        double x = x2;
-        double y = -z2 * Math.sin(rollRadians) + y2 * Math.cos(rollRadians);
-        double z = z2 * Math.cos(rollRadians) + y2 * Math.sin(rollRadians);
-
-        // transform relative positions to real simulation positions
-        return new Coordinate(
-                x + getPosition().getX(),
-                y + getPosition().getY(),
-                z + getPosition().getZ()
-        );
     }
 }
