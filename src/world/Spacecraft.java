@@ -25,9 +25,9 @@ public class Spacecraft extends Entity {
         // save bottom coordinates to render separately at the end
         Coordinate[] bottomCoordinates = new Coordinate[numSlices];
 
-        Coordinate nose = directionTransform(new Coordinate(xPosition, yPosition + tankLength, zPosition));
-        Coordinate startTop = directionTransform(new Coordinate(xPosition + tankRadius, yPosition + (tankLength / 2), zPosition));
-        Coordinate startBottom = directionTransform(new Coordinate(xPosition + tankRadius, yPosition - (tankLength / 2), zPosition));
+        Coordinate nose = directionTransform(new Coordinate(0, tankLength, 0));
+        Coordinate startTop = directionTransform(new Coordinate(tankRadius, tankLength / 2, 0));
+        Coordinate startBottom = directionTransform(new Coordinate(tankRadius, -tankLength / 2, 0));
         bottomCoordinates[0] = startBottom;
 
         Coordinate previousTop = startTop;
@@ -39,16 +39,16 @@ public class Spacecraft extends Entity {
             double theta = n * sliceAngle;
 
             Coordinate bottom = directionTransform(new Coordinate(
-                    xPosition + tankRadius * Math.cos(theta),
-                    yPosition - (tankLength / 2),
-                    zPosition + tankRadius * Math.sin(theta)
+                    tankRadius * Math.cos(theta),
+                    -tankLength / 2,
+                    tankRadius * Math.sin(theta)
             ));
             bottomCoordinates[n] = bottom;
 
             Coordinate top = directionTransform(new Coordinate(
-                    xPosition + tankRadius * Math.cos(theta),
-                    yPosition + (tankLength / 2),
-                    zPosition + tankRadius * Math.sin(theta)
+                    tankRadius * Math.cos(theta),
+                    tankLength / 2,
+                    tankRadius * Math.sin(theta)
             ));
 
             Color meshColor = StdDraw.GRAY;
@@ -87,22 +87,40 @@ public class Spacecraft extends Entity {
 //        return new Coordinate(dX, dY, dZ);
 //    }
 
-    public Coordinate directionTransform(Coordinate realPosition) {
+    /**
+     * Scale and rotate an object's relative positions axis to real simulation positions.
+     * @param relativeToObject position relative to the object's axes.
+     * @return position transformed to real simulation axes.
+     * */
+    public Coordinate directionTransform(Coordinate relativeToObject) {
         // calculate positions relative to the object's center
-        double xE = realPosition.getX() - getPosition().getX();
-        double yE = realPosition.getY() - getPosition().getY();
-        double zE = realPosition.getZ() - getPosition().getZ();
+        double xE = relativeToObject.getX();
+        double yE = relativeToObject.getY();
+        double zE = relativeToObject.getZ();
 
+        // yaw transformation
         double yawRadians = Math.toRadians(yaw);
-
         double x1 = xE * Math.cos(yawRadians) + zE * Math.sin(yawRadians);
         double y1 = yE;
         double z1 = -xE * Math.sin(yawRadians) + zE * Math.cos(yawRadians);
 
+        // pitch transformation
+        double pitchRadians = Math.toRadians(pitch);
+        double x2 = x1 * Math.cos(pitchRadians) - y1 * Math.sin(pitchRadians);
+        double y2 = x1 * Math.sin(pitchRadians) + y1 * Math.cos(pitchRadians);
+        double z2 = z1;
+
+        // roll transformation
+        double rollRadians = Math.toRadians(roll);
+        double x = x2;
+        double y = -z2 * Math.sin(rollRadians) + y2 * Math.cos(rollRadians);
+        double z = z2 * Math.cos(rollRadians) + y2 * Math.sin(rollRadians);
+
+        // transform relative positions to real simulation positions
         return new Coordinate(
-                x1 + getPosition().getX(),
-                y1 + getPosition().getY(),
-                z1 + getPosition().getZ()
+                x + getPosition().getX(),
+                y + getPosition().getY(),
+                z + getPosition().getZ()
         );
     }
 }
