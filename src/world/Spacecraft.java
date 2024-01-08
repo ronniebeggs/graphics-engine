@@ -8,10 +8,9 @@ import java.awt.*;
 import java.util.ArrayList;
 
 public class Spacecraft extends Entity {
-    public double tankLength;
-    public double tankRadius;
-    public int numSlices;
-    public double direction;
+    public double tankLength; // length of the spacecraft tank (also determines nose length)
+    public double tankRadius; // radius of the spacecraft tank
+    public int numSlices; // number of mesh slices
     public Spacecraft(double x, double y, double z, double tankLength, double tankRadius, int numSlices) {
         super(x, y, z);
         this.tankLength = tankLength;
