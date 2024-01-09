@@ -20,14 +20,14 @@ public class Spacecraft extends Entity {
         setDirection(pitch, yaw, roll);
         createMesh();
     }
-    /** Create the surface mesh for the spacecraft entity. */
+    /** Create the surface mesh for the spacecraft entity. Initialize it pointing down the positive x-axis. */
     public void createMesh() {
         // save bottom coordinates to render separately at the end
         Coordinate[] bottomCoordinates = new Coordinate[numSlices];
 
-        Coordinate nose = Coordinate.fullPositionRotation(this, new Coordinate(0, tankLength, 0));
-        Coordinate startTop = Coordinate.fullPositionRotation(this, new Coordinate(tankRadius, tankLength / 2, 0));
-        Coordinate startBottom = Coordinate.fullPositionRotation(this, new Coordinate(tankRadius, -tankLength / 2, 0));
+        Coordinate nose = Coordinate.fullPositionRotation(this, new Coordinate(tankLength, 0, 0));
+        Coordinate startTop = Coordinate.fullPositionRotation(this, new Coordinate(tankLength / 2, 0, tankRadius));
+        Coordinate startBottom = Coordinate.fullPositionRotation(this, new Coordinate(-tankLength / 2, 0, tankRadius));
         bottomCoordinates[0] = startBottom;
 
         Coordinate previousTop = startTop;
@@ -41,18 +41,18 @@ public class Spacecraft extends Entity {
             Coordinate bottom = Coordinate.fullPositionRotation(
                     this,
                     new Coordinate(
-                    tankRadius * Math.cos(theta),
-                    -tankLength / 2,
-                    tankRadius * Math.sin(theta)
+                            -tankLength / 2,
+                    tankRadius * Math.sin(theta),
+                    tankRadius * Math.cos(theta)
             ));
             bottomCoordinates[n] = bottom;
 
             Coordinate top = Coordinate.fullPositionRotation(
                     this,
                     new Coordinate(
-                    tankRadius * Math.cos(theta),
-                    tankLength / 2,
-                    tankRadius * Math.sin(theta)
+                            tankLength / 2,
+                    tankRadius * Math.sin(theta),
+                    tankRadius * Math.cos(theta)
             ));
 
             Color meshColor = StdDraw.GRAY;
