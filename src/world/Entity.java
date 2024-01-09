@@ -13,13 +13,13 @@ public class Entity {
     public double roll; // rotation relative to viewing plane (barrel roles)
     public List<Mesh> meshes;
 
-    public Entity(double x, double y, double z) {
-        xPosition = x;
-        yPosition = y;
-        zPosition = z;
-        pitch = 0;
-        yaw = 0;
-        roll = 0;
+    public Entity(double x, double y, double z, double pitch, double yaw, double roll) {
+        this.xPosition = x;
+        this.yPosition = y;
+        this.zPosition = z;
+        this.pitch = pitch;
+        this.yaw = yaw;
+        this.roll = roll;
     }
     public Coordinate getPosition() {
         return new Coordinate(xPosition, yPosition, zPosition);

@@ -11,8 +11,8 @@ public class Sphere extends Entity {
     public double radius;
     public int numSlices; // number of vertical slices around the sphere (n)
     public int numStacks; // number of horizontal slices around the sphere (m)
-    public Sphere(double x, double y, double z, double r, int n, int m) {
-        super(x, y, z);
+    public Sphere(double x, double y, double z, double pitch, double yaw, double roll, double r, int n, int m) {
+        super(x, y, z, pitch, yaw, roll);
         this.radius = r;
         this.numSlices = n;
         this.numStacks = m;
@@ -31,7 +31,7 @@ public class Sphere extends Entity {
         for (int n = 0; n < numSlices; n++) {
             // alternate slice color to better visualize mesh
             Color meshColor = StdDraw.BOOK_BLUE;
-            if (n % 2 == 0) {
+            if (n == 0) {
                 meshColor = StdDraw.BOOK_RED;
             }
 
@@ -41,15 +41,15 @@ public class Sphere extends Entity {
             // create top triangle
             double distanceFromYAxis = radius * Math.sin(phi);
             double distanceFromXZPlane = radius * Math.cos(phi);
-            double y = yPosition + distanceFromXZPlane;
+            double y = distanceFromXZPlane;
 
-            double x0 = xPosition + distanceFromYAxis * Math.cos(theta);
-            double z0 = zPosition + distanceFromYAxis * Math.sin(theta);
-            Coordinate v0 = new Coordinate(x0, y, z0);
+            double x0 = distanceFromYAxis * Math.cos(theta);
+            double z0 = distanceFromYAxis * Math.sin(theta);
+            Coordinate v0 = Coordinate.fullPositionRotation(this, new Coordinate(x0, y, z0));
 
-            double x1 = xPosition + distanceFromYAxis * Math.cos(theta + sliceAngle);
-            double z1 = zPosition + distanceFromYAxis * Math.sin(theta + sliceAngle);
-            Coordinate v1 = new Coordinate(x1, y, z1);
+            double x1 = distanceFromYAxis * Math.cos(theta + sliceAngle);
+            double z1 = distanceFromYAxis * Math.sin(theta + sliceAngle);
+            Coordinate v1 = Coordinate.fullPositionRotation(this,new Coordinate(x1, y, z1));
 
             meshes.add(new Mesh(new Coordinate[]{top, v0, v1}, meshColor));
 
@@ -63,15 +63,15 @@ public class Sphere extends Entity {
 
                 distanceFromYAxis = radius * Math.sin(phi);
                 distanceFromXZPlane = radius * Math.cos(phi);
-                y = yPosition + distanceFromXZPlane;
+                y = distanceFromXZPlane;
 
-                x0 = xPosition + distanceFromYAxis * Math.cos(theta);
-                z0 = zPosition + distanceFromYAxis * Math.sin(theta);
-                v0 = new Coordinate(x0, y, z0);
+                x0 = distanceFromYAxis * Math.cos(theta);
+                z0 = distanceFromYAxis * Math.sin(theta);
+                v0 = Coordinate.fullPositionRotation(this, new Coordinate(x0, y, z0));
 
                 x1 = xPosition + distanceFromYAxis * Math.cos(theta + sliceAngle);
                 z1 = zPosition + distanceFromYAxis * Math.sin(theta + sliceAngle);
-                v1 = new Coordinate(x1, y, z1);
+                v1 = Coordinate.fullPositionRotation(this, new Coordinate(x1, y, z1));
 
                 meshes.add(new Mesh(new Coordinate[]{previousV0, v0, v1, previousV1}, meshColor));
 

@@ -12,12 +12,11 @@ public class Spacecraft extends Entity {
     public double tankRadius; // radius of the spacecraft tank
     public int numSlices; // number of mesh slices
     public Spacecraft(double x, double y, double z, double pitch, double yaw, double roll, double tankLength, double tankRadius, int numSlices) {
-        super(x, y, z);
+        super(x, y, z, pitch, yaw, roll);
         this.tankLength = tankLength;
         this.tankRadius = tankRadius;
         this.numSlices = numSlices;
         this.meshes = new ArrayList<>();
-        setDirection(pitch, yaw, roll);
         createMesh();
     }
     /** Create the surface mesh for the spacecraft entity. Initialize it pointing down the positive x-axis. */

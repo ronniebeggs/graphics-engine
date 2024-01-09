@@ -10,7 +10,7 @@ public class Cube extends Entity {
     int sideLength;
     ArrayList<Coordinate> vertices;
     public Cube(int x, int y, int z, int sideLength) {
-        super(x, y, z);
+        super(x, y, z, 0, 0, 0);
         this.sideLength = sideLength;
         createCube();
     }
