@@ -25,9 +25,9 @@ public class Spacecraft extends Entity {
         // save bottom coordinates to render separately at the end
         Coordinate[] bottomCoordinates = new Coordinate[numSlices];
 
-        Coordinate nose = Coordinate.fullPositionRotation(this, new Coordinate(0, tankLength, 0));
-        Coordinate startTop = Coordinate.fullPositionRotation(this, new Coordinate(tankRadius, tankLength / 2, 0));
-        Coordinate startBottom = Coordinate.fullPositionRotation(this, new Coordinate(tankRadius, -tankLength / 2, 0));
+        Coordinate nose = Coordinate.combinedRotationTransformation(this, new Coordinate(0, tankLength, 0));
+        Coordinate startTop = Coordinate.combinedRotationTransformation(this, new Coordinate(tankRadius, tankLength / 2, 0));
+        Coordinate startBottom = Coordinate.combinedRotationTransformation(this, new Coordinate(tankRadius, -tankLength / 2, 0));
         bottomCoordinates[0] = startBottom;
 
         Coordinate previousTop = startTop;
@@ -38,7 +38,7 @@ public class Spacecraft extends Entity {
         for (int n = 1; n < numSlices; n++) {
             double theta = n * sliceAngle;
 
-            Coordinate bottom = Coordinate.fullPositionRotation(
+            Coordinate bottom = Coordinate.combinedRotationTransformation(
                     this,
                     new Coordinate(
                     tankRadius * Math.cos(theta),
@@ -47,7 +47,7 @@ public class Spacecraft extends Entity {
             ));
             bottomCoordinates[n] = bottom;
 
-            Coordinate top = Coordinate.fullPositionRotation(
+            Coordinate top = Coordinate.combinedRotationTransformation(
                     this,
                     new Coordinate(
                     tankRadius * Math.cos(theta),

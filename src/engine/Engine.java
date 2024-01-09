@@ -31,8 +31,8 @@ public class Engine {
 
     public void mainLoop() {
         World world = new World();
-        camera = new Camera(0, 0, 0);
-        Spacecraft spacecraft = new Spacecraft(0, 0, 100, 0, -180, 0, 100, 20, 12);
+        camera = new Camera(0, 0, -100);
+        Spacecraft spacecraft = new Spacecraft(0, 0, 0, -90, 90, 0, 100, 20, 12);
         world.insertEntity(spacecraft);
         ter.initialize(camera, DISPLAY_WIDTH, DISPLAY_HEIGHT, VERTICAL_VIEW_ANGLE);
         while (true) {

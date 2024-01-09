@@ -60,6 +60,43 @@ public class Coordinate {
                 dZ + entityPosition.getZ()
         );
     }
+    public static Coordinate combinedRotationTransformation(Entity entity, Coordinate relativePosition) {
+//        Coordinate rotated = rotateRoll(entity, rotatePitch(entity, rotateYaw(entity, relativePosition)));
+        // calculate positions relative to the object's center
+        double x = relativePosition.getX();
+        double y = relativePosition.getY();
+        double z = relativePosition.getZ();
+
+        // yaw transformation
+        double yawRadians = -Math.toRadians(entity.getDirection().getY());
+        double x1 = (x * Math.cos(yawRadians) + z * Math.sin(yawRadians)) - x;
+        double y1 = 0;
+        double z1 = (-x * Math.sin(yawRadians) + z * Math.cos(yawRadians)) - z;
+
+        // pitch transformation
+        double pitchRadians = Math.toRadians(entity.getDirection().getX());
+        double x2 = (x * Math.cos(pitchRadians) - y * Math.sin(pitchRadians)) - x;
+        double y2 = (x * Math.sin(pitchRadians) + y * Math.cos(pitchRadians)) - y;
+        double z2 = 0;
+
+        double dX = x + x1 + x2;
+        double dY = y + y1 + y2;
+        double dZ = z + z1 + z2;
+
+//        // roll transformation
+//        double rollRadians = Math.toRadians(entity.getDirection().getZ());
+//        double dX = x;
+//        double dY = -z * Math.sin(rollRadians) + y * Math.cos(rollRadians);
+//        double dZ = z * Math.cos(rollRadians) + y * Math.sin(rollRadians);
+
+        Coordinate entityPosition = entity.getPosition();
+        return new Coordinate(
+                entityPosition.getX() + dX,
+                entityPosition.getY() + dY,
+                entityPosition.getZ() + dZ
+        );
+    }
+
     /**
      * Rotate relative position in the yaw direction.
      * @param entity target to transform position relative to.
@@ -73,18 +110,19 @@ public class Coordinate {
         double z = relativePosition.getZ();
 
         // yaw transformation
-        double yawRadians = Math.toRadians(entity.getDirection().getY());
+        double yawRadians = -Math.toRadians(entity.getDirection().getY());
         double dX = x * Math.cos(yawRadians) + z * Math.sin(yawRadians);
         double dY = y;
         double dZ = -x * Math.sin(yawRadians) + z * Math.cos(yawRadians);
 
-        // transform relative positions to real simulation positions
-        Coordinate entityPosition = entity.getPosition();
-        return new Coordinate(
-                dX + entityPosition.getX(),
-                dY + entityPosition.getY(),
-                dZ + entityPosition.getZ()
-        );
+        return new Coordinate(dX, dY, dZ);
+//        // transform relative positions to real simulation positions
+//        Coordinate entityPosition = entity.getPosition();
+//        return new Coordinate(
+//                dX + entityPosition.getX(),
+//                dY + entityPosition.getY(),
+//                dZ + entityPosition.getZ()
+//        );
     }
 
     /**
@@ -105,13 +143,14 @@ public class Coordinate {
         double dY = x * Math.sin(pitchRadians) + y * Math.cos(pitchRadians);
         double dZ = z;
 
-        // transform relative positions to real simulation positions
-        Coordinate entityPosition = entity.getPosition();
-        return new Coordinate(
-                dX + entityPosition.getX(),
-                dY + entityPosition.getY(),
-                dZ + entityPosition.getZ()
-        );
+        return new Coordinate(dX, dY, dZ);
+//        // transform relative positions to real simulation positions
+//        Coordinate entityPosition = entity.getPosition();
+//        return new Coordinate(
+//                dX + entityPosition.getX(),
+//                dY + entityPosition.getY(),
+//                dZ + entityPosition.getZ()
+//        );
     }
     /**
      * Rotate relative position in the pitch direction.
@@ -131,14 +170,16 @@ public class Coordinate {
         double dY = -z * Math.sin(rollRadians) + y * Math.cos(rollRadians);
         double dZ = z * Math.cos(rollRadians) + y * Math.sin(rollRadians);
 
-        // transform relative positions to real simulation positions
-        Coordinate entityPosition = entity.getPosition();
-        return new Coordinate(
-                dX + entityPosition.getX(),
-                dY + entityPosition.getY(),
-                dZ + entityPosition.getZ()
-        );
+        return new Coordinate(dX, dY, dZ);
+//        // transform relative positions to real simulation positions
+//        Coordinate entityPosition = entity.getPosition();
+//        return new Coordinate(
+//                dX + entityPosition.getX(),
+//                dY + entityPosition.getY(),
+//                dZ + entityPosition.getZ()
+//        );
     }
+
     public double[] toArray() {
         return new double[]{x, y, z};
     }
