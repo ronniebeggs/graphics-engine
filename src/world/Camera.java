@@ -70,10 +70,18 @@ public class Camera extends Entity {
         double deltaXZ1 = Math.sqrt(Math.pow(deltaX1, 2) + Math.pow(deltaZ1, 2));
         double deltaY1 = cameraPosition.getY() - targetPosition.getY();
         double relativeAngleY = Math.atan2(deltaY1, deltaXZ1);
+        // compute angle of the camera's new position relative to the target
+        double newTargetAngle = relativeAngleY + Math.toRadians(degree);
+        // adjust angle if it exceeds a boundary to prevent fully rotating over the target
+        if (newTargetAngle >= Math.PI / 2) {
+            newTargetAngle = Math.PI / 2;
+        } else if (newTargetAngle <= -Math.PI / 2) {
+            newTargetAngle = -Math.PI / 2;
+        }
         // calculate the new camera position relative to the target position
         double distance3D = cameraPosition.distance3D(targetPosition);
-        double deltaXZ2 = distance3D * Math.cos(relativeAngleY + Math.toRadians(degree));
-        double deltaY2 = distance3D * Math.sin(relativeAngleY + Math.toRadians(degree));
+        double deltaXZ2 = distance3D * Math.cos(newTargetAngle);
+        double deltaY2 = distance3D * Math.sin(newTargetAngle);
         // update camera position and view angle
         this.xPosition = targetPosition.getX() + deltaXZ2 * Math.cos(relativeAngleXZ);
         this.zPosition = targetPosition.getZ() + deltaXZ2 * Math.sin(relativeAngleXZ);
