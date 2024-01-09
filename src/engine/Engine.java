@@ -91,16 +91,16 @@ public class Engine {
                 camera.moveFrontal(-10);
             }
             case 'd' -> {
-                camera.rotateAround(target, 10);
+                camera.rotateAroundHorizontal(target, 10);
             }
             case 'a' -> {
-                camera.rotateAround(target, -10);
+                camera.rotateAroundHorizontal(target, -10);
             }
             case 'q' -> {
-                camera.moveTransverse(10);
+                camera.rotateAroundVertical(target, 10);
             }
             case 'e' -> {
-                camera.moveTransverse(-10);
+                camera.rotateAroundVertical(target, -10);
             }
             case 'i' -> {
                 camera.rotatePitch(10);

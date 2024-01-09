@@ -43,7 +43,7 @@ public class Camera extends Entity {
         double xzDistance = cameraPosition.distanceXZ(targetPosition);
         this.pitch = Math.toDegrees(Math.atan2(deltaY, xzDistance));
     }
-    public void rotateAround(Entity target, double degree) {
+    public void rotateAroundHorizontal(Entity target, double degree) {
         Coordinate cameraPosition = getPosition();
         Coordinate targetPosition = target.getPosition();
         // calculate the angle of the camera relative to the target
@@ -57,6 +57,27 @@ public class Camera extends Entity {
         // update camera position and view angle
         this.xPosition = targetPosition.getX() + deltaX2;
         this.zPosition = targetPosition.getZ() + deltaZ2;
+        pointToward(target);
+    }
+    public void rotateAroundVertical(Entity target, double degree) {
+        Coordinate cameraPosition = getPosition();
+        Coordinate targetPosition = target.getPosition();
+        // calculate the angle of the camera relative to the target in the x-z plane
+        double deltaX1 = cameraPosition.getX() - targetPosition.getX();
+        double deltaZ1 = cameraPosition.getZ() - targetPosition.getZ();
+        double relativeAngleXZ = Math.atan2(deltaZ1, deltaX1);
+        // calculate the angle of the camera relative to the target in the xz-y plane
+        double deltaXZ1 = Math.sqrt(Math.pow(deltaX1, 2) + Math.pow(deltaZ1, 2));
+        double deltaY1 = cameraPosition.getY() - targetPosition.getY();
+        double relativeAngleY = Math.atan2(deltaY1, deltaXZ1);
+        // calculate the new camera position relative to the target position
+        double distance3D = cameraPosition.distance3D(targetPosition);
+        double deltaXZ2 = distance3D * Math.cos(relativeAngleY + Math.toRadians(degree));
+        double deltaY2 = distance3D * Math.sin(relativeAngleY + Math.toRadians(degree));
+        // update camera position and view angle
+        this.xPosition = targetPosition.getX() + deltaXZ2 * Math.cos(relativeAngleXZ);
+        this.zPosition = targetPosition.getZ() + deltaXZ2 * Math.sin(relativeAngleXZ);
+        this.yPosition = targetPosition.getY() + deltaY2;
         pointToward(target);
     }
     public Coordinate getCameraTilt() {
