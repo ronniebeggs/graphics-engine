@@ -45,9 +45,9 @@ public class Coordinate {
 
         // yaw transformation
         double yawRadians = -Math.toRadians(entity.getDirection().getY());
-        double dX = x * Math.sin((Math.PI / 2) - yawRadians) + z * Math.sin(yawRadians);
+        double dX = x * Math.cos(yawRadians) + z * Math.sin(yawRadians);
         double dY = y;
-        double dZ = -x * Math.sin(yawRadians) + z * Math.sin((Math.PI / 2) - yawRadians);
+        double dZ = -x * Math.sin(yawRadians) + z * Math.cos(yawRadians);
 
         // transform relative positions to real simulation positions
         Coordinate entityPosition = entity.getPosition();

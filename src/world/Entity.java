@@ -4,6 +4,9 @@ import util.Coordinate;
 import util.Mesh;
 import java.util.List;
 
+/**
+ * Entities are any objects with a position and direction.
+ * */
 public class Entity {
     public double xPosition;
     public double yPosition;

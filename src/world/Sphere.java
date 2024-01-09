@@ -31,7 +31,7 @@ public class Sphere extends Entity {
         for (int n = 0; n < numSlices; n++) {
             // alternate slice color to better visualize mesh
             Color meshColor = StdDraw.BOOK_BLUE;
-            if (n == 0) {
+            if (n % 2 == 0) {
                 meshColor = StdDraw.BOOK_RED;
             }
 

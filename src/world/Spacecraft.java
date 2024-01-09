@@ -54,13 +54,8 @@ public class Spacecraft extends Entity {
                     tankRadius * Math.cos(theta)
             ));
 
-            Color meshColor = StdDraw.GRAY;
-            if (n == 1) {
-                meshColor = StdDraw.BOOK_BLUE;
-            }
-
             // create the tank mesh slice
-            meshes.add(new Mesh(new Coordinate[]{previousBottom, previousTop, top, bottom}, meshColor));
+            meshes.add(new Mesh(new Coordinate[]{previousBottom, previousTop, top, bottom}, StdDraw.GRAY));
             // create the nose mesh slice
             meshes.add(new Mesh(new Coordinate[]{previousTop, nose, top}, StdDraw.BOOK_RED));
 
