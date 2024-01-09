@@ -1,12 +1,13 @@
 package world;
 import util.Coordinate;
 
+/**
+ * Camera object exists within the simulation. Other objects are rendered relative
+ * to the camera and its position/direction attributes.
+ * */
 public class Camera extends Entity {
     public Camera(double x, double y, double z) {
         super(x, y, z, 0, 0, 0);
-        this.pitch = 0;
-        this.yaw = 90;
-        this.roll = 0;
     }
     public void moveFrontal(double distance) {
         moveInDirection(distance, this.yaw);

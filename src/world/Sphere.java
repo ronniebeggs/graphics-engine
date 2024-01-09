@@ -7,7 +7,7 @@ import util.Mesh;
 import java.awt.*;
 import java.util.ArrayList;
 
-public class Sphere extends Entity {
+public class Sphere extends RenderableEntity {
     public double radius;
     public int numSlices; // number of vertical slices around the sphere (n)
     public int numStacks; // number of horizontal slices around the sphere (m)
@@ -16,7 +16,6 @@ public class Sphere extends Entity {
         this.radius = r;
         this.numSlices = n;
         this.numStacks = m;
-        this.meshes = new ArrayList<>();
         createMesh();
     }
     /** Create a UV Sphere surface mesh according to the inputted number of slices/stacks. */

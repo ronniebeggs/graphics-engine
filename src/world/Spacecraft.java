@@ -4,10 +4,7 @@ import edu.princeton.cs.algs4.StdDraw;
 import util.Coordinate;
 import util.Mesh;
 
-import java.awt.*;
-import java.util.ArrayList;
-
-public class Spacecraft extends Entity {
+public class Spacecraft extends RenderableEntity {
     public double tankLength; // length of the spacecraft tank (also determines nose length)
     public double tankRadius; // radius of the spacecraft tank
     public int numSlices; // number of mesh slices
@@ -16,7 +13,6 @@ public class Spacecraft extends Entity {
         this.tankLength = tankLength;
         this.tankRadius = tankRadius;
         this.numSlices = numSlices;
-        this.meshes = new ArrayList<>();
         createMesh();
     }
     /** Create the surface mesh for the spacecraft entity. Initialize it pointing down the positive x-axis. */

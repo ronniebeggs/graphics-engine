@@ -3,7 +3,7 @@ package engine;
 import edu.princeton.cs.algs4.StdDraw;
 import util.Coordinate;
 import util.Mesh;
-import world.Entity;
+import world.RenderableEntity;
 import world.World;
 import world.Camera;
 
@@ -65,7 +65,7 @@ public class Renderer {
     public void renderFrame(World world) {
         StdDraw.clear(new Color(0, 0, 0));
         StdDraw.enableDoubleBuffering();
-        for (Entity entity : world.fetchEntities()) {
+        for (RenderableEntity entity : world.fetchRenderableEntities()) {
             renderEntity(entity);
         }
         StdDraw.show();
@@ -75,7 +75,7 @@ public class Renderer {
      * Render each of an entity's meshes in decreasing order of distance to the camera.
      * @param entity entity to be rendered.
      * */
-    public void renderEntity(Entity entity) {
+    public void renderEntity(RenderableEntity entity) {
         // map each mesh to its distance relative to the camera, and place within priority queue.
         PriorityQueue<MeshRankNode> meshRank = new PriorityQueue<>();
         for (Mesh mesh : entity.getMeshes()) {

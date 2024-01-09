@@ -6,7 +6,7 @@ import util.Coordinate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Square extends Entity {
+public class Square extends RenderableEntity {
     public int sideLength;
     public List<Coordinate> vertices;
 

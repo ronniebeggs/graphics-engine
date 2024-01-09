@@ -8,7 +8,6 @@ import world.*;
  * Solicits user input, captures the world state, and renders each frame.
  * */
 public class Engine {
-
     Renderer ter = new Renderer();
     Camera camera;
     public final int DISPLAY_WIDTH = 600;
@@ -29,10 +28,8 @@ public class Engine {
 
     public void mainLoop() {
         World world = new World();
-        camera = new Camera(0, 0, -200);
-        Spacecraft spacecraft = new Spacecraft(0, 0, -100, 0, 0, 0, 50, 10, 12);
+        camera = new Camera(-100, 0, 0);
         Sphere sphere = new Sphere(0, 0, 0, 0, 180, 0, 50, 24, 12);
-        world.insertEntity(spacecraft);
         world.insertEntity(sphere);
         ter.initialize(camera, DISPLAY_WIDTH, DISPLAY_HEIGHT, VERTICAL_VIEW_ANGLE);
         while (true) {
