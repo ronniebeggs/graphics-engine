@@ -30,7 +30,6 @@ public class Coordinate {
         double deltaZSquared = Math.pow(getZ() - other.getZ(), 2);
         return Math.sqrt(deltaXSquared + deltaZSquared);
     }
-
     /**
      * Rotate relative position in the yaw direction.
      * @param entity target to transform position relative to.
@@ -139,7 +138,6 @@ public class Coordinate {
 //                dZ + entityPosition.getZ()
 //        );
     }
-
     public double[] toArray() {
         return new double[]{x, y, z};
     }
