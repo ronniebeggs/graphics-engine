@@ -88,6 +88,29 @@ public class Camera extends Entity {
         this.yPosition = targetPosition.getY() + deltaY2;
         pointToward(target);
     }
+    public void zoomTowardTarget(Entity target, double zoomDistance) {
+        Coordinate cameraPosition = getPosition();
+        Coordinate targetPosition = target.getPosition();
+        // calculate the angle of the camera relative to the target in the x-z plane
+        double deltaX1 = cameraPosition.getX() - targetPosition.getX();
+        double deltaZ1 = cameraPosition.getZ() - targetPosition.getZ();
+        double relativeAngleXZ = Math.atan2(deltaZ1, deltaX1);
+        double distanceXZ = cameraPosition.distanceXZ(targetPosition);
+        // calculate the angle of the camera relative to the target in the xz-y plane
+        double deltaXZ1 = Math.sqrt(Math.pow(deltaX1, 2) + Math.pow(deltaZ1, 2));
+        double deltaY1 = cameraPosition.getY() - targetPosition.getY();
+        double relativeAngleY = Math.atan2(deltaY1, deltaXZ1);
+        double distance3D = cameraPosition.distance3D(targetPosition);
+
+        double newYHeight = (distance3D - zoomDistance) * Math.sin(relativeAngleY);
+        double newXZDistance = (distance3D - zoomDistance) * Math.cos(relativeAngleY);
+
+        // update camera position and view angle
+        this.xPosition = targetPosition.getX() + newXZDistance * Math.cos(relativeAngleXZ);
+        this.zPosition = targetPosition.getZ() + newXZDistance * Math.sin(relativeAngleXZ);
+        this.yPosition = targetPosition.getY() + newYHeight;
+        pointToward(target);
+    }
     public Coordinate getCameraTilt() {
         return new Coordinate(pitch, yaw, roll);
     }
