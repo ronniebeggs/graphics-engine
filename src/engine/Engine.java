@@ -85,10 +85,10 @@ public class Engine {
     public void fixedOrbitalMovement(Entity target, char keyPress) {
         switch (keyPress) {
             case 'w' -> {
-                camera.zoomTowardTarget(target, 10);
+                camera.moveTowardTarget(target, 10);
             }
             case 's' -> {
-                camera.zoomTowardTarget(target, -10);
+                camera.moveTowardTarget(target, -10);
             }
             case 'd' -> {
                 camera.rotateAroundHorizontal(target, 10);
