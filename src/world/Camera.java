@@ -6,8 +6,8 @@ import util.Coordinate;
  * to the camera and its position/direction attributes.
  * */
 public class Camera extends Entity {
-    public Camera(double x, double y, double z) {
-        super(x, y, z, 0, 0, 0);
+    public Camera(double x, double y, double z, double pitch, double yaw, double roll) {
+        super(x, y, z, pitch, yaw, roll);
     }
     /**
      * Move the camera forward/backward relative to the camera's current yaw direction in the xz-plane.
@@ -151,5 +151,26 @@ public class Camera extends Entity {
     /** @return `Coordinate` object containing the camera's pitch, yaw, roll angles. */
     public Coordinate getCameraTilt() {
         return new Coordinate(pitch, yaw, roll);
+    }
+    /**
+     * Calculate the distance of a target entity orthogonal to the camera's viewing plane.
+     * @param entity target to calculate relative distance to.
+     * */
+    public double distanceToViewPlane(Entity entity) {
+        Coordinate cameraPosition = getPosition();
+        Coordinate entityPosition = entity.getPosition();
+        // project the entity onto the xz-plane defined by the camera's pitch angle
+        double pitchRadians = Math.toRadians(getCameraTilt().getX());
+        double deltaY = entityPosition.getY() - cameraPosition.getY();
+        double distance3D = entityPosition.distance3D(cameraPosition);
+        double angleToXZ = Math.asin(deltaY / distance3D);
+        double distanceRelativeToCameraXZ = distance3D * Math.cos(angleToXZ - pitchRadians);
+        // project the entity onto x-axis defined by the camera's yaw angle
+        double yawRadians = Math.toRadians(getCameraTilt().getY());
+        double deltaX = entityPosition.getX() - cameraPosition.getX();
+        double deltaZ = entityPosition.getZ() - cameraPosition.getZ();
+        double angleRelativeToX = Math.atan2(deltaZ, deltaX);
+        // determine the distance of the entity along this relative axis
+        return distanceRelativeToCameraXZ * Math.cos(angleRelativeToX - yawRadians);
     }
 }

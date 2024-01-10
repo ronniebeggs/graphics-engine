@@ -66,7 +66,9 @@ public class Renderer {
         StdDraw.clear(new Color(0, 0, 0));
         StdDraw.enableDoubleBuffering();
         for (RenderableEntity entity : world.fetchRenderableEntities()) {
-            renderEntity(entity);
+            if (shouldRenderEntity(entity, 50)) {
+                renderEntity(entity);
+            }
         }
         StdDraw.show();
     }
@@ -134,6 +136,10 @@ public class Renderer {
         double bX = (double) ((eZ / dZ) * dX + eX);
         double bY = (double) ((eZ / dZ) * dY + eY);
         return new Coordinate(bX, bY, 0);
+    }
+
+    public boolean shouldRenderEntity(RenderableEntity entity, double frontClip) {
+        return camera.distanceToViewPlane(entity) >= frontClip;
     }
 }
 
