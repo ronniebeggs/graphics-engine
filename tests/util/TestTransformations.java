@@ -45,4 +45,11 @@ public class TestTransformations {
         camera.setDirection(0, 90, 0);
         assertThat(Math.round(100 * camera.distanceToViewPlane(entity)) / 100).isEqualTo(0);
     }
+
+    @Test
+    public void testNormalVectorCalculations() {
+        Coordinate v1 = new Coordinate(1, 0, 0);
+        Coordinate v2 = new Coordinate(0, 1, 0);
+        Coordinate crossProduct = Coordinate.crossProduct(v1, v2);
+    }
 }

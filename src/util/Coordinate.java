@@ -138,6 +138,12 @@ public class Coordinate {
 //                dZ + entityPosition.getZ()
 //        );
     }
+    public static Coordinate crossProduct(Coordinate v1, Coordinate v2) {
+        double x = v1.getY() * v2.getZ() - v1.getZ() * v2.getY();
+        double y = v1.getZ() * v2.getX() - v1.getX() * v2.getZ();
+        double z = v1.getX() * v2.getY() - v1.getY() * v2.getX();
+        return new Coordinate(x, y, z);
+    }
     public double[] toArray() {
         return new double[]{x, y, z};
     }
