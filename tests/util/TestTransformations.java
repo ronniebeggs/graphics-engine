@@ -1,7 +1,8 @@
 package util;
 
+import engine.Renderer;
 import org.junit.Test;
-import world.Spacecraft;
+import world.*;
 
 import static com.google.common.truth.Truth.assertThat;
 
@@ -29,5 +30,19 @@ public class TestTransformations {
         assertThat(yawRotationOutput.getX()).isEqualTo(expectedOutput.getX());
         assertThat(yawRotationOutput.getY()).isEqualTo(expectedOutput.getY());
         assertThat(yawRotationOutput.getZ()).isEqualTo(expectedOutput.getZ());
+    }
+
+    @Test
+    public void testRelativeDistanceCalculations() {
+        RenderableEntity entity = new RenderableEntity(100, 0, 0, 0, 0, 0);
+        Camera camera = new Camera(0, 0, 0, 0, 0, 0);
+
+        assertThat(Math.round(100 * camera.distanceToViewPlane(entity)) / 100).isEqualTo(100);
+
+        camera.setDirection(0, 60, 0);
+        assertThat(Math.round(100 * camera.distanceToViewPlane(entity)) / 100).isEqualTo(50);
+
+        camera.setDirection(0, 90, 0);
+        assertThat(Math.round(100 * camera.distanceToViewPlane(entity)) / 100).isEqualTo(0);
     }
 }
