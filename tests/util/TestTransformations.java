@@ -48,8 +48,23 @@ public class TestTransformations {
 
     @Test
     public void testNormalVectorCalculations() {
-        Coordinate v1 = new Coordinate(1, 0, 0);
-        Coordinate v2 = new Coordinate(0, 1, 0);
-        Coordinate crossProduct = Coordinate.crossProduct(v1, v2);
+        Coordinate v1;
+        Coordinate v2;
+        Coordinate crossProduct;
+        v1 = new Coordinate(1, 0, 0);
+        v2 = new Coordinate(0, 0, 1);
+        crossProduct = Coordinate.crossProduct(v2, v1);
+
+        assertThat(crossProduct.getX()).isEqualTo(0);
+        assertThat(crossProduct.getY()).isEqualTo(1);
+        assertThat(crossProduct.getZ()).isEqualTo(0);
+
+        v1 = new Coordinate(1, 0, 0);
+        v2 = new Coordinate(0, 1, 0);
+        crossProduct = Coordinate.crossProduct(v1, v2);
+
+        assertThat(crossProduct.getX()).isEqualTo(0);
+        assertThat(crossProduct.getY()).isEqualTo(0);
+        assertThat(crossProduct.getZ()).isEqualTo(1);
     }
 }
