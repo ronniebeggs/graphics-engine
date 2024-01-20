@@ -47,6 +47,16 @@ public class Mesh {
         return null;
     }
 
+    public void changeColorBrightness(double proportion) {
+        float[] colorComponents = new float[3];
+        this.color.getColorComponents(colorComponents);
+        this.color = new Color(
+                (int) (colorComponents[0] * proportion),
+                (int) (colorComponents[1] * proportion),
+                (int) (colorComponents[2] * proportion)
+        );
+    }
+
     /**
      * Returns the average position on a mesh for computing basic rendering order.
      * @return coordinate representing average position.
