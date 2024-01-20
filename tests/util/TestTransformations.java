@@ -47,7 +47,7 @@ public class TestTransformations {
     }
 
     @Test
-    public void testNormalVectorCalculations() {
+    public void testCrossProductCalculations() {
         Coordinate v1;
         Coordinate v2;
         Coordinate crossProduct;
@@ -66,5 +66,24 @@ public class TestTransformations {
         assertThat(crossProduct.getX()).isEqualTo(0);
         assertThat(crossProduct.getY()).isEqualTo(0);
         assertThat(crossProduct.getZ()).isEqualTo(1);
+    }
+
+    @Test
+    public void testNormalizeCalculations() {
+        Coordinate v1;
+        Coordinate normalized;
+        v1 = new Coordinate(1, 0, 0);
+        normalized = Coordinate.normalize(v1);
+
+        assertThat(normalized.getX()).isEqualTo(1);
+        assertThat(normalized.getY()).isEqualTo(0);
+        assertThat(normalized.getZ()).isEqualTo(0);
+
+        v1 = new Coordinate(1, 1, 1);
+        normalized = Coordinate.normalize(v1);
+
+        assertThat(normalized.getX()).isEqualTo(1 / Math.sqrt(3));
+        assertThat(normalized.getY()).isEqualTo(1 / Math.sqrt(3));
+        assertThat(normalized.getZ()).isEqualTo(1 / Math.sqrt(3));
     }
 }
