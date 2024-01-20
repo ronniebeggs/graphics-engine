@@ -154,6 +154,13 @@ public class Coordinate {
         return new Coordinate(x, y, z);
     }
     /**
+     * Computes the dot product of vectors v1 and v2.
+     * @return result dot product.
+     * */
+    public static double dotProduct(Coordinate v1, Coordinate v2) {
+        return (v1.getX() * v2.getX()) + (v1.getY() * v2.getY()) + (v1.getZ() * v2.getZ());
+    }
+    /**
      * Normalize a given vector input (make magnitude == 1)
      * @param vector input vector.
      * @return resulting normalized vector.

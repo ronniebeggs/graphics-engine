@@ -86,4 +86,23 @@ public class TestTransformations {
         assertThat(normalized.getY()).isEqualTo(1 / Math.sqrt(3));
         assertThat(normalized.getZ()).isEqualTo(1 / Math.sqrt(3));
     }
+
+    @Test
+    public void testDotProduct() {
+        Coordinate v1;
+        Coordinate v2;
+        Coordinate crossProduct;
+
+        v1 = new Coordinate(1, 0, 0);
+        v2 = new Coordinate(1, 0, 0);
+        assertThat(Coordinate.dotProduct(v1, v2)).isEqualTo(1);
+
+        v1 = new Coordinate(1, 0, 0);
+        v2 = new Coordinate(0, 1, 0);
+        assertThat(Coordinate.dotProduct(v1, v2)).isEqualTo(0);
+
+        v1 = new Coordinate(1, 0, 0);
+        v2 = new Coordinate(-1, 0, 0);
+        assertThat(Coordinate.dotProduct(v1, v2)).isEqualTo(-1);
+    }
 }
