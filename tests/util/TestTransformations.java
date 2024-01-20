@@ -1,5 +1,6 @@
 package util;
 
+import edu.princeton.cs.algs4.StdDraw;
 import engine.Renderer;
 import org.junit.Test;
 import world.*;
@@ -104,5 +105,19 @@ public class TestTransformations {
         v1 = new Coordinate(1, 0, 0);
         v2 = new Coordinate(-1, 0, 0);
         assertThat(Coordinate.dotProduct(v1, v2)).isEqualTo(-1);
+    }
+
+    @Test
+    public void testNormalVectorCreation() {
+        Coordinate v1 = new Coordinate(0, 0, 0);
+        Coordinate v2 = new Coordinate(1, 0, 0);
+        Coordinate v3 = new Coordinate(0, 1, 0);
+
+        Mesh mesh = new Mesh(new Coordinate[]{v1, v2, v3}, StdDraw.RED);
+
+        Coordinate normal = mesh.getNormalVector();
+        assertThat(normal.getX()).isEqualTo(0);
+        assertThat(normal.getY()).isEqualTo(0);
+        assertThat(normal.getZ()).isEqualTo(1);
     }
 }
