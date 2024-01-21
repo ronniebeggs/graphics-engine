@@ -96,32 +96,46 @@ public class Renderer {
     }
 
     /**
-     * Draw and fill the mesh using StdDraw library.
-     * @param mesh mesh to be rendered.
+     * Shade the mesh using the lightSource's in the simulation.
+     * @param mesh target mesh to apply the shader too.
+     * @return adjusted shader color.
      * */
-    public void renderMesh(Mesh mesh) {
+    public Color shadeMesh(Mesh mesh) {
+        double strongestFacingRatio = 0.2;
+        // iterate through lightSources and find the brightest light
+        for (int lightIndex = 0; lightIndex < lightSources.length; lightIndex++) {
+            LightSource light = lightSources[lightIndex];
 
-        LightSource light = lightSources[0];
+            Coordinate lightPosition = light.getPosition();
+            Coordinate meshPosition = mesh.averagePosition();
+            Coordinate lightVector = Coordinate.normalize(new Coordinate(
+                    lightPosition.getX() - meshPosition.getX(),
+                    lightPosition.getY() - meshPosition.getY(),
+                    lightPosition.getZ() - meshPosition.getZ()
+            ));
 
-        Coordinate lightPosition = light.getPosition();
-        Coordinate meshPosition = mesh.averagePosition();
-        Coordinate lightVector = Coordinate.normalize(new Coordinate(
-                lightPosition.getX() - meshPosition.getX(),
-                lightPosition.getY() - meshPosition.getY(),
-                lightPosition.getZ() - meshPosition.getZ()
-        ));
-
-        double facingRatio = Coordinate.dotProduct(lightVector, mesh.getNormalVector());
-        double brightnessProportion = 1 - (facingRatio * 0.5);
-
+            double facingRatio = Coordinate.dotProduct(lightVector, mesh.getNormalVector());
+            if (facingRatio > strongestFacingRatio) {
+                strongestFacingRatio = facingRatio;
+            }
+        }
+        // shade the mesh according to the brightest light source
+        double brightnessProportion = strongestFacingRatio * 0.8;
         float[] colorComponents = new float[3];
         mesh.getColor().getColorComponents(colorComponents);
-        Color adjustedColor = new Color(
+        return new Color(
                 (int) (colorComponents[0] * brightnessProportion * 255),
                 (int) (colorComponents[1] * brightnessProportion * 255),
                 (int) (colorComponents[2] * brightnessProportion * 255)
         );
+    }
 
+    /**
+     * Draw and fill the mesh using StdDraw library.
+     * @param mesh mesh to be rendered.
+     * */
+    public void renderMesh(Mesh mesh) {
+        Color adjustedColor = shadeMesh(mesh);
         StdDraw.setPenColor(adjustedColor);
         int numVertices = mesh.getNumVertices();
         double[] xVertices = new double[numVertices];

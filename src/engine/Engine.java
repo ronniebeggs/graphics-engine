@@ -29,8 +29,8 @@ public class Engine {
     public void mainLoop() {
         World world = new World();
         camera = new Camera(-100, 0, 0, 0, 0, 0);
-        LightSource light = new LightSource(-100, 0, 0);
-        LightSource[] lightSources = new LightSource[]{light};
+        LightSource light1 = new LightSource(-100, 0, 0);
+        LightSource[] lightSources = new LightSource[]{light1};
         Sphere sphere = new Sphere(0, 0, 0, 0, 180, 0, 50, 48, 24);
         world.insertEntity(sphere);
         ter.initialize(camera, lightSources, DISPLAY_WIDTH, DISPLAY_HEIGHT, VERTICAL_VIEW_ANGLE);
