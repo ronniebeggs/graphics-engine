@@ -101,7 +101,7 @@ public class Renderer {
      * @return adjusted shader color.
      * */
     public Color shadeMesh(Mesh mesh) {
-        double strongestFacingRatio = 0.2;
+        double strongestFacingRatio = 0.1;
         // iterate through lightSources and find the brightest light
         for (int lightIndex = 0; lightIndex < lightSources.length; lightIndex++) {
             LightSource light = lightSources[lightIndex];
@@ -109,9 +109,9 @@ public class Renderer {
             Coordinate lightPosition = light.getPosition();
             Coordinate meshPosition = mesh.averagePosition();
             Coordinate lightVector = Coordinate.normalize(new Coordinate(
-                    lightPosition.getX() - meshPosition.getX(),
-                    lightPosition.getY() - meshPosition.getY(),
-                    lightPosition.getZ() - meshPosition.getZ()
+                    -(lightPosition.getX() - meshPosition.getX()),
+                    -(lightPosition.getY() - meshPosition.getY()),
+                    -(lightPosition.getZ() - meshPosition.getZ())
             ));
 
             double facingRatio = Coordinate.dotProduct(lightVector, mesh.getNormalVector());
@@ -120,7 +120,7 @@ public class Renderer {
             }
         }
         // shade the mesh according to the brightest light source
-        double brightnessProportion = strongestFacingRatio * 0.8;
+        double brightnessProportion = strongestFacingRatio * 1;
         float[] colorComponents = new float[3];
         mesh.getColor().getColorComponents(colorComponents);
         return new Color(
