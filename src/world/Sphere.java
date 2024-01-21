@@ -26,14 +26,9 @@ public class Sphere extends RenderableEntity {
         Coordinate top = new Coordinate(xPosition, yPosition + radius, zPosition);
         Coordinate bottom = new Coordinate(xPosition, yPosition - radius, zPosition);
 
+        Color meshColor = StdDraw.BOOK_BLUE;
         // iterate through each slice (vertical section) and create meshes from the top down
         for (int n = 0; n < numSlices; n++) {
-            // alternate slice color to better visualize mesh
-            Color meshColor = StdDraw.BOOK_BLUE;
-            if (n % 2 == 0) {
-                meshColor = StdDraw.BOOK_RED;
-            }
-
             double theta = n * sliceAngle; // angle parallel to the equator (longitude)
             double phi = stackAngle; // angle parallel to y-axis (latitude)
 

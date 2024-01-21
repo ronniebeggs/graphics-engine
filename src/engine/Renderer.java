@@ -6,6 +6,7 @@ import util.Mesh;
 import world.RenderableEntity;
 import world.World;
 import world.Camera;
+import world.LightSource;
 
 import java.awt.Color;
 import java.util.PriorityQueue;
@@ -35,6 +36,7 @@ public class Renderer {
     private int displayHeight;
     private double focalLength;
     private Camera camera;
+    private LightSource[] lightSources;
     /**
      * Initializes StdDraw parameters and launches the StdDraw window. w and h are the
      * width and height of the world in pixels.
@@ -43,8 +45,9 @@ public class Renderer {
      * @param height height of the window in pixels.
      * @param fovY vertical view angle of the camera.
      */
-    public void initialize(Camera camera, int width, int height, double verticalViewAngle) {
+    public void initialize(Camera camera, LightSource[] lightSources, int width, int height, double verticalViewAngle) {
         this.camera = camera;
+        this.lightSources = lightSources;
         this.displayWidth = width;
         this.displayHeight = height;
         this.focalLength = displayHeight / (2 * Math.tan(Math.toRadians(verticalViewAngle)));
@@ -97,7 +100,29 @@ public class Renderer {
      * @param mesh mesh to be rendered.
      * */
     public void renderMesh(Mesh mesh) {
-        StdDraw.setPenColor(mesh.getColor());
+
+        LightSource light = lightSources[0];
+
+        Coordinate lightPosition = light.getPosition();
+        Coordinate meshPosition = mesh.averagePosition();
+        Coordinate lightVector = Coordinate.normalize(new Coordinate(
+                lightPosition.getX() - meshPosition.getX(),
+                lightPosition.getY() - meshPosition.getY(),
+                lightPosition.getZ() - meshPosition.getZ()
+        ));
+
+        double facingRatio = Coordinate.dotProduct(lightVector, mesh.getNormalVector());
+        double brightnessProportion = 1 - (facingRatio * 0.5);
+
+        float[] colorComponents = new float[3];
+        mesh.getColor().getColorComponents(colorComponents);
+        Color adjustedColor = new Color(
+                (int) (colorComponents[0] * brightnessProportion * 255),
+                (int) (colorComponents[1] * brightnessProportion * 255),
+                (int) (colorComponents[2] * brightnessProportion * 255)
+        );
+
+        StdDraw.setPenColor(adjustedColor);
         int numVertices = mesh.getNumVertices();
         double[] xVertices = new double[numVertices];
         double[] yVertices = new double[numVertices];
