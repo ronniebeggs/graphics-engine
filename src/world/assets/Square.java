@@ -1,7 +1,8 @@
-package world;
+package world.assets;
 
 import edu.princeton.cs.algs4.StdDraw;
 import util.Coordinate;
+import world.RenderableEntity;
 
 import java.util.ArrayList;
 import java.util.List;

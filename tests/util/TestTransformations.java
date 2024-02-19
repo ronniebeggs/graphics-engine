@@ -1,9 +1,9 @@
 package util;
 
 import edu.princeton.cs.algs4.StdDraw;
-import engine.Renderer;
 import org.junit.Test;
 import world.*;
+import world.assets.Spacecraft;
 
 import static com.google.common.truth.Truth.assertThat;
 

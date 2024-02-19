@@ -1,8 +1,9 @@
-package world;
+package world.assets;
 
 import edu.princeton.cs.algs4.StdDraw;
 import util.Coordinate;
 import util.Mesh;
+import world.RenderableEntity;
 
 public class Spacecraft extends RenderableEntity {
     public double tankLength; // length of the spacecraft tank (also determines nose length)

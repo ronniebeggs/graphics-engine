@@ -2,6 +2,7 @@ package engine;
 
 import edu.princeton.cs.algs4.StdDraw;
 import world.*;
+import world.assets.Sphere;
 
 /**
  * Class that handles the overarching operations of the project.
