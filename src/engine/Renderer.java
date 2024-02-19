@@ -6,7 +6,7 @@ import util.Mesh;
 import world.RenderableEntity;
 import world.World;
 import world.Camera;
-import world.LightSource;
+import world.Entity;
 
 import java.awt.Color;
 import java.util.PriorityQueue;
@@ -36,7 +36,7 @@ public class Renderer {
     private int displayHeight;
     private double focalLength;
     private Camera camera;
-    private LightSource[] lightSources;
+    private Entity[] lightSources;
     /**
      * Initializes StdDraw parameters and launches the StdDraw window. w and h are the
      * width and height of the world in pixels.
@@ -45,7 +45,7 @@ public class Renderer {
      * @param height height of the window in pixels.
      * @param fovY vertical view angle of the camera.
      */
-    public void initialize(Camera camera, LightSource[] lightSources, int width, int height, double verticalViewAngle) {
+    public void initialize(Camera camera, Entity[] lightSources, int width, int height, double verticalViewAngle) {
         this.camera = camera;
         this.lightSources = lightSources;
         this.displayWidth = width;
@@ -96,7 +96,7 @@ public class Renderer {
     }
 
     /**
-     * Shade the mesh using the lightSource's in the simulation.
+     * Shade the mesh using the `lightSource`s in the simulation.
      * @param mesh target mesh to apply the shader too.
      * @return adjusted shader color.
      * */
@@ -104,7 +104,11 @@ public class Renderer {
         double strongestFacingRatio = 0.1;
         // iterate through lightSources and find the brightest light
         for (int lightIndex = 0; lightIndex < lightSources.length; lightIndex++) {
-            LightSource light = lightSources[lightIndex];
+            Entity light = lightSources[lightIndex];
+            // light sources shouldn't light themselves up
+            if (light.equals(mesh.getParent())) {
+                continue;
+            }
 
             Coordinate lightPosition = light.getPosition();
             Coordinate meshPosition = mesh.averagePosition();

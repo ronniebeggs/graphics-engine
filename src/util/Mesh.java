@@ -1,18 +1,24 @@
 package util;
+import world.RenderableEntity;
+
 import java.awt.Color;
 
 public class Mesh {
+    private RenderableEntity parent;
     private Color color;
     private Coordinate[] vertices;
     private Coordinate normalVector;
     private int numVertices;
-    public Mesh(Coordinate[] vertices, Color color) {
+    public Mesh(RenderableEntity parent, Coordinate[] vertices, Color color) {
+        this.parent = parent;
         this.color = color;
         this.vertices = vertices;
         this.numVertices = vertices.length;
         this.normalVector = computeNormal(vertices);
     }
-
+    public RenderableEntity getParent() {
+        return parent;
+    }
     public Coordinate[] getVertices() {
         return vertices;
     }

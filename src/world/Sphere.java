@@ -45,7 +45,7 @@ public class Sphere extends RenderableEntity {
             double z1 = distanceFromYAxis * Math.sin(theta + sliceAngle);
             Coordinate v1 = Coordinate.fullPositionRotation(this,new Coordinate(x1, y, z1));
 
-            meshes.add(new Mesh(new Coordinate[]{top, v0, v1}, meshColor));
+            meshes.add(new Mesh(this, new Coordinate[]{top, v0, v1}, meshColor));
 
             // save previously computed coordinates to limit duplicates
             Coordinate previousV0 = v0;
@@ -67,14 +67,14 @@ public class Sphere extends RenderableEntity {
                 z1 = zPosition + distanceFromYAxis * Math.sin(theta + sliceAngle);
                 v1 = Coordinate.fullPositionRotation(this, new Coordinate(x1, y, z1));
 
-                meshes.add(new Mesh(new Coordinate[]{previousV0, v0, v1, previousV1}, meshColor));
+                meshes.add(new Mesh(this, new Coordinate[]{previousV0, v0, v1, previousV1}, meshColor));
 
                 previousV0 = v0;
                 previousV1 = v1;
             }
 
             // add bottom triangle
-            meshes.add(new Mesh(new Coordinate[]{previousV0, bottom, previousV1}, meshColor));
+            meshes.add(new Mesh(this, new Coordinate[]{previousV0, bottom, previousV1}, meshColor));
         }
     }
 

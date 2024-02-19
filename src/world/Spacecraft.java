@@ -51,17 +51,17 @@ public class Spacecraft extends RenderableEntity {
             ));
 
             // create the tank mesh slice
-            meshes.add(new Mesh(new Coordinate[]{previousBottom, previousTop, top, bottom}, StdDraw.GRAY));
+            meshes.add(new Mesh(this, new Coordinate[]{previousBottom, previousTop, top, bottom}, StdDraw.GRAY));
             // create the nose mesh slice
-            meshes.add(new Mesh(new Coordinate[]{previousTop, nose, top}, StdDraw.BOOK_RED));
+            meshes.add(new Mesh(this, new Coordinate[]{previousTop, nose, top}, StdDraw.BOOK_RED));
 
             previousTop = top;
             previousBottom = bottom;
         }
         // create the last tank and nose meshes connected to the original points
-        meshes.add(new Mesh(new Coordinate[]{previousBottom, previousTop, startTop, startBottom}, StdDraw.GRAY));
-        meshes.add(new Mesh(new Coordinate[]{previousTop, nose, startTop}, StdDraw.BOOK_RED));
+        meshes.add(new Mesh(this, new Coordinate[]{previousBottom, previousTop, startTop, startBottom}, StdDraw.GRAY));
+        meshes.add(new Mesh(this, new Coordinate[]{previousTop, nose, startTop}, StdDraw.BOOK_RED));
         // create mesh at the bottom of the tank
-        meshes.add(new Mesh(bottomCoordinates, StdDraw.PRINCETON_ORANGE));
+        meshes.add(new Mesh(this, bottomCoordinates, StdDraw.PRINCETON_ORANGE));
     }
 }
