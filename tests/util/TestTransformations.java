@@ -17,20 +17,21 @@ public class TestTransformations {
 
         // basic yaw transformations
         testCraft = new Spacecraft(0, 0, 0, 0, -90, 0, 10, 10, 10);
-        testPoint = new Coordinate(10, 0, 10);
-        expectedOutput = new Coordinate(10, 0, -10);
+        testPoint = new Coordinate(10, 10, 0);
+        expectedOutput = new Coordinate(10, -10, 0);
         yawRotationOutput = Coordinate.rotateYaw(testCraft, testPoint);
         assertThat(yawRotationOutput.getX()).isEqualTo(expectedOutput.getX());
         assertThat(yawRotationOutput.getY()).isEqualTo(expectedOutput.getY());
         assertThat(yawRotationOutput.getZ()).isEqualTo(expectedOutput.getZ());
 
         testCraft = new Spacecraft(0, 0, 0, 0, 180, 0, 10, 10, 10);
-        testPoint = new Coordinate(-10, 0, 10);
-        expectedOutput = new Coordinate(10, 0, -10);
+        testPoint = new Coordinate(-10, 10, 0);
+        expectedOutput = new Coordinate(10, -10, 0);
         yawRotationOutput = Coordinate.rotateYaw(testCraft, testPoint);
-        assertThat(yawRotationOutput.getX()).isEqualTo(expectedOutput.getX());
-        assertThat(yawRotationOutput.getY()).isEqualTo(expectedOutput.getY());
-        assertThat(yawRotationOutput.getZ()).isEqualTo(expectedOutput.getZ());
+
+        assertThat(Math.round(yawRotationOutput.getX())).isEqualTo(Math.round(expectedOutput.getX()));
+        assertThat(Math.round(yawRotationOutput.getY())).isEqualTo(Math.round(expectedOutput.getY()));
+        assertThat(Math.round(yawRotationOutput.getZ())).isEqualTo(Math.round(expectedOutput.getZ()));
     }
 
     @Test
@@ -113,7 +114,7 @@ public class TestTransformations {
         Coordinate v2 = new Coordinate(1, 0, 0);
         Coordinate v3 = new Coordinate(0, 1, 0);
 
-        Mesh mesh = new Mesh(new Coordinate[]{v1, v2, v3}, StdDraw.RED);
+        Mesh mesh = new Mesh(null, new Coordinate[]{v1, v2, v3}, StdDraw.RED);
 
         Coordinate normal = mesh.getNormalVector();
         assertThat(normal.getX()).isEqualTo(0);

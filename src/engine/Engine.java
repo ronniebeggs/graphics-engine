@@ -2,7 +2,7 @@ package engine;
 
 import edu.princeton.cs.algs4.StdDraw;
 import world.*;
-import world.assets.Sphere;
+import world.assets.*;
 
 /**
  * Class that handles the overarching operations of the project.
@@ -23,7 +23,7 @@ public class Engine {
         camera = new Camera(-100, 0, 0, 0, 0, 0);
         Entity light = new Entity(-1000, 0, 0, 0, 0, 0);
         Entity[] lightSources = new Entity[]{light};
-        Sphere sphere = new Sphere(0, 0, 0, 0, 180, 0, 50, 24, 12);
+        Sphere sphere = new Sphere(0, 0, 0, 0, 180, 0, 50, 48, 24);
         world.insertEntity(sphere);
         ter.initialize(camera, lightSources, DISPLAY_WIDTH, DISPLAY_HEIGHT, VERTICAL_VIEW_ANGLE);
         ter.renderFrame(world);
@@ -52,7 +52,7 @@ public class Engine {
     }
     public void freeMovement(Entity target, char keyPress) {
         switch (keyPress) {
-            case 'u' -> {
+            case 'f' -> {
                 camera.pointToward(target);
             }
             case 'w' -> {
@@ -74,16 +74,16 @@ public class Engine {
                 camera.moveTransverse(-10);
             }
             case 'i' -> {
-                camera.rotatePitch(10);
-            }
-            case 'k' -> {
                 camera.rotatePitch(-10);
             }
+            case 'k' -> {
+                camera.rotatePitch(10);
+            }
             case 'l' -> {
-                camera.rotateYaw(-10);
+                camera.rotateYaw(10);
             }
             case 'j' -> {
-                camera.rotateYaw(10);
+                camera.rotateYaw(-10);
             }
         };
     }
@@ -96,10 +96,10 @@ public class Engine {
                 camera.moveTowardTarget(target, -10);
             }
             case 'd' -> {
-                camera.rotateAroundHorizontal(target, 10);
+                camera.rotateAroundHorizontal(target, -10);
             }
             case 'a' -> {
-                camera.rotateAroundHorizontal(target, -10);
+                camera.rotateAroundHorizontal(target, 10);
             }
             case 'q' -> {
                 camera.rotateAroundVertical(target, 10);
@@ -108,16 +108,16 @@ public class Engine {
                 camera.rotateAroundVertical(target, -10);
             }
             case 'i' -> {
-                camera.rotatePitch(10);
-            }
-            case 'k' -> {
                 camera.rotatePitch(-10);
             }
+            case 'k' -> {
+                camera.rotatePitch(10);
+            }
             case 'l' -> {
-                camera.rotateYaw(-10);
+                camera.rotateYaw(10);
             }
             case 'j' -> {
-                camera.rotateYaw(10);
+                camera.rotateYaw(-10);
             }
         }
     }

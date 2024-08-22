@@ -1,5 +1,6 @@
 package engine;
 
+import Jama.Matrix;
 import edu.princeton.cs.algs4.StdDraw;
 import util.Coordinate;
 import util.Mesh;
@@ -113,9 +114,9 @@ public class Renderer {
             Coordinate lightPosition = light.getPosition();
             Coordinate meshPosition = mesh.averagePosition();
             Coordinate lightVector = Coordinate.normalize(new Coordinate(
-                    -(lightPosition.getX() - meshPosition.getX()),
-                    -(lightPosition.getY() - meshPosition.getY()),
-                    -(lightPosition.getZ() - meshPosition.getZ())
+                    (lightPosition.getX() - meshPosition.getX()),
+                    (lightPosition.getY() - meshPosition.getY()),
+                    (lightPosition.getZ() - meshPosition.getZ())
             ));
 
             double facingRatio = Coordinate.dotProduct(lightVector, mesh.getNormalVector());
@@ -158,26 +159,44 @@ public class Renderer {
      * @return renderable 2D coordinate.
      * */
     public Coordinate transformCoordinate(Coordinate position) {
+
         Coordinate cameraPosition = camera.getPosition();
         double X = position.getX() - cameraPosition.getX();
         double Y = position.getY() - cameraPosition.getY();
         double Z = position.getZ() - cameraPosition.getZ();
         // Theta = (thetaX, thetaY, thetaZ) -> tait-bryan angles
         Coordinate cameraTilt = camera.getCameraTilt();
-        double thetaX = -Math.toRadians(cameraTilt.getX()); // pitch
-        double thetaY = -Math.toRadians(cameraTilt.getY() - 90); // yaw
-        double thetaZ = Math.toRadians(cameraTilt.getZ()); // roll
+        double pitch = Math.toRadians(cameraTilt.getX()); // pitch
+        double yaw = Math.toRadians(cameraTilt.getY()); // yaw
         // I have no idea if this is going to work
-        double dX = Math.cos(thetaY) * (Math.sin(thetaZ) * Y + Math.cos(thetaZ) * X) - Math.sin(thetaY) * Z;
-        double dY = Math.sin(thetaX) * (Math.cos(thetaY) * Z + Math.sin(thetaY) * (Math.sin(thetaZ) * Y + Math.cos(thetaZ) * X)) + Math.cos(thetaX) * (Math.cos(thetaZ) * Y - Math.sin(thetaZ) * X);
-        double dZ = Math.cos(thetaX) * (Math.cos(thetaY) * Z + Math.sin(thetaY) * (Math.sin(thetaZ) * Y + Math.cos(thetaZ) * X)) - Math.sin(thetaX) * (Math.cos(thetaZ) * Y - Math.sin(thetaZ) * X);
+
+        Matrix inversePitchRotation = new Matrix(new double[][]{
+                new double[]{Math.cos(pitch), 0, -Math.sin(pitch)},
+                new double[]{0, 1, 0},
+                new double[]{Math.sin(pitch), 0, Math.cos(pitch)}
+        });
+        Matrix inverseYawRotation = new Matrix(new double[][]{
+                new double[]{Math.cos(yaw), Math.sin(yaw), 0},
+                new double[]{-Math.sin(yaw), Math.cos(yaw), 0},
+                new double[]{0, 0, 1}
+        });
+        Matrix XYZMatrix =  new Matrix(new double[][]{
+                new double[]{X},
+                new double[]{Y},
+                new double[]{Z}
+        });
+        Matrix result = inversePitchRotation.times(inverseYawRotation.times(XYZMatrix));
+        // D = (dX, dY, dZ) -> position of the entity relative to the rotated camera (left-hand coordinate system)
+        double dX = result.get(0, 0);
+        double dY = result.get(1, 0);
+        double dZ = result.get(2, 0);
         // E = (eX, eY, eZ) -> position of the display surface plane position relative to the camera pinhole
         double eX = 0;
         double eY = 0;
         double eZ = focalLength;
         // (bX, bY) -> transformed position on the 2d screen surface
-        double bX = (double) ((eZ / dZ) * dX + eX);
-        double bY = (double) ((eZ / dZ) * dY + eY);
+        double bX = (double) ((eZ / dX) * dY + eX);
+        double bY = (double) ((eZ / dX) * dZ + eY);
         return new Coordinate(bX, bY, 0);
     }
 

@@ -25,10 +25,10 @@ public class Coordinate {
         double deltaZSquared = Math.pow(getZ() - other.getZ(), 2);
         return Math.sqrt(deltaXSquared + deltaYSquared + deltaZSquared);
     }
-    public double distanceXZ(Coordinate other) {
+    public double distanceXY(Coordinate other) {
         double deltaXSquared = Math.pow(getX() - other.getX(), 2);
-        double deltaZSquared = Math.pow(getZ() - other.getZ(), 2);
-        return Math.sqrt(deltaXSquared + deltaZSquared);
+        double deltaYSquared = Math.pow(getY() - other.getY(), 2);
+        return Math.sqrt(deltaXSquared + deltaYSquared);
     }
     public double magnitude() {
         return Math.sqrt(Math.pow(getX(), 2) + Math.pow(getY(), 2) + Math.pow(getZ(), 2));
@@ -47,9 +47,9 @@ public class Coordinate {
 
         // yaw transformation
         double yawRadians = -Math.toRadians(entity.getDirection().getY());
-        double dX = x * Math.cos(yawRadians) + z * Math.sin(yawRadians);
-        double dY = y;
-        double dZ = -x * Math.sin(yawRadians) + z * Math.cos(yawRadians);
+        double dX = x * Math.cos(yawRadians) + y * Math.sin(yawRadians);
+        double dY = -x * Math.sin(yawRadians) + y * Math.cos(yawRadians);
+        double dZ = z;
 
         // transform relative positions to real simulation positions
         Coordinate entityPosition = entity.getPosition();
@@ -66,6 +66,9 @@ public class Coordinate {
      * @return position transformed to real simulation axes.
      * */
     public static Coordinate rotatePitch(Entity entity, Coordinate relativePosition) {
+        // TODO: Update this implementation
+        return new Coordinate(0, 0, 0);
+        /*
         // calculate positions relative to the object's center
         double x = relativePosition.getX();
         double y = relativePosition.getY();
@@ -84,6 +87,7 @@ public class Coordinate {
                 dY + entityPosition.getY(),
                 dZ + entityPosition.getZ()
         );
+         */
     }
     /**
      * Rotate relative position in the pitch direction.
@@ -92,6 +96,9 @@ public class Coordinate {
      * @return position transformed to real simulation axes.
      * */
     public static Coordinate rotateRoll(Entity entity, Coordinate relativePosition) {
+        // TODO: Update this implementation
+        return new Coordinate(0, 0, 0);
+        /*
         // calculate positions relative to the object's center
         double x = relativePosition.getX();
         double y = relativePosition.getY();
@@ -110,6 +117,7 @@ public class Coordinate {
                 dY + entityPosition.getY(),
                 dZ + entityPosition.getZ()
         );
+         */
     }
     /**
      * Transform positions relative to an object to real simulation positions.
@@ -118,6 +126,7 @@ public class Coordinate {
      * @return position transformed to real simulation axes.
      * */
     public static Coordinate fullPositionRotation(Entity entity, Coordinate relativePosition) {
+        // TODO: Update this implementation
         return rotateYaw(entity, relativePosition);
 //        // calculate positions relative to the object's center
 //        double x = relativePosition.getX();
